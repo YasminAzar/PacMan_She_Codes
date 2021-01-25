@@ -11,13 +11,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.util.Timer;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+
+import Game_Objects.Ghosts;
 
 public class GameScore extends JPanel implements ActionListener {
 	int score = 0;
 	int powerBallCounter = 0;
 	String lifeIsLost = "";
+	int timerCounter;
 	
 	public String getLifeIsLost() {
 		return lifeIsLost;
@@ -90,6 +93,28 @@ public class GameScore extends JPanel implements ActionListener {
 		 timer = new Timer(15, this);
 	     timer.start();
 	}*/
+	public void updateLifeMessage(String message) {
+		final int second = 1000;
+		
+			System.out.println("Your lost one life");
+			timerCounter = 4;
+			ActionListener task = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+					if(timerCounter < 0) {
+						Timer t = (Timer)evt.getSource();
+						t.stop();
+						setLifeIsLost("");
+					}
+					else {
+						setLifeIsLost("Your lost one life");
+						timerCounter -= 1;
+					}		
+				}
+			};
+			Timer timer = new Timer(second, task);
+			timer.start();
+		}
 	
 	
 	

@@ -78,8 +78,6 @@ public final class GameConstants implements Cloneable{
 			{"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"}
 	};
 
-
-
 	public static final String BOARD_OPTION_3[][] = {
 			{"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"},
 			{"1","0","0","0","0","0","0","0","0","0","0","0","0","0","1"},
@@ -97,8 +95,6 @@ public final class GameConstants implements Cloneable{
 			{"1","0","0","0","0","0","0","0","0","0","0","0","0","0","1"},
 			{"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"}
 	};
-
-
 
 	@Override
 	protected Object clone() throws CloneNotSupportedException {

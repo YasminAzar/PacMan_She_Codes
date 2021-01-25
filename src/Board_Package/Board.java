@@ -12,14 +12,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.IntStream;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
 import Game_Constants_Package.GameConstants;
 import Game_Objects.Ghosts;
 import Game_Objects.Lives;
@@ -74,9 +70,8 @@ public class Board extends JPanel implements ActionListener{
 	int timerCounter;
 	int ghost_offset;
 	String direction;
-	ArrayList<Junction> junctionArrList = new ArrayList<Junction>();
-	Junction junc = new Junction();
 	GridBagConstraints gbc;
+	Positions pacman_postion;
 	int [] cubeSize = new int[2];
 	int [] ballsLocation = new int[2];
 	int [] pbLocation = new int[6];
@@ -90,9 +85,8 @@ public class Board extends JPanel implements ActionListener{
 	int [] pbLoc2 = new int[2];
 	int [] pbLoc3 = new int[2];
 	int [] pbLoc4 = new int[2];
-	Positions pacman_postion;
-	
-	public 	Board() {
+
+	public Board() {
 		boardWidth = (int)(GameConstants.SCREEN_WIDTH * GameConstants.BOARD_PERCENT);
 		boardHeight = (int)(GameConstants.SCREEN_HEIGHT * GameConstants.BOARD_PERCENT);
 		blockWidth = calcBlockSize(map.length, boardWidth,boardHeight)[0];
@@ -143,7 +137,6 @@ public class Board extends JPanel implements ActionListener{
 		int h = getSize().height;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, w, h);
-
 		PacmanLog.log("creatBoard","map.length "+map.length+" map[0].length "+map[0].length);
 		int index = 0;
 		// EB back to 15
@@ -209,7 +202,7 @@ public class Board extends JPanel implements ActionListener{
 	/**
 	 * This function prints the map
 	 */
-	public void printMap() {
+	private void printMap() {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				System.out.print(map[i][j] + " ");	
@@ -225,7 +218,7 @@ public class Board extends JPanel implements ActionListener{
 	 * @param boardHeight
 	 * @return cubeSize - an array of block size in pixels
 	 */
-	public int[] calcBlockSize(int arraySize, int boardWidth, int boardHeight) {
+	private int[] calcBlockSize(int arraySize, int boardWidth, int boardHeight) {
 		blockWidth = boardWidth/arraySize;
 		blockHeight = boardHeight/arraySize;
 		cubeSize[0] = blockWidth;
@@ -238,7 +231,7 @@ public class Board extends JPanel implements ActionListener{
 	 * @param blockSize
 	 * @return ballsLocation - an array of location of the ball in pixels
 	 */
-	public int[] calcLocationBall(int blockSize) {
+	private int[] calcLocationBall(int blockSize) {
 		double x_offset = 0.4;
 		double y_offset = 1.39;
 		locationBallX = blockWidth+boardOffset+(int)(blockWidth*x_offset);
@@ -253,7 +246,7 @@ public class Board extends JPanel implements ActionListener{
 	 * @param gameBoard
 	 * @return rand_val - the random line as an integer
 	 */
-	public int findEmptyRow(String[][] gameBoard) {
+	private int findEmptyRow(String[][] gameBoard) {
 		boolean[] row_is_empty = new boolean[gameBoard.length]; //boolean array 
 		int [] row_is_empty0_1 = new int[gameBoard.length]; //help array
 		int count = 0;
@@ -303,7 +296,6 @@ public class Board extends JPanel implements ActionListener{
 		}
 		return first_col_index;
 	}
-	
 
 	/**
 	 * This function finds the initial indexes of ghosts and pacman
@@ -313,7 +305,6 @@ public class Board extends JPanel implements ActionListener{
 		int j = 0;
 		int [] rows = {1, 5, 7, 9, 13};
 		Positions positions[]= new Positions[5];
-		//dictionary.put("key", "value");
 		for (int i = 0; i < rows.length; i++) {
 			positions[i] = new Positions();
 			if(rows[i] == 1) {
@@ -379,7 +370,7 @@ public class Board extends JPanel implements ActionListener{
 	 * @param gameBoard
 	 * @return indexPB - index of the power ball on the game board
 	 */
-	public int[] findPBLocation(String[][] gameBoard) {
+	private int[] findPBLocation(String[][] gameBoard) {
 		int count = 0;
 		ArrayList<Integer> row_with_2_empty_blocks = new ArrayList<Integer>();
 		int min_i = gameBoard.length-1;
@@ -447,7 +438,7 @@ public class Board extends JPanel implements ActionListener{
 	/**
 	 * This function calls the ghosts to enter the game
 	 */
-	public void callGhosts() {
+	private void callGhosts() {
 		Positions positions[] = findIndexes();
 		// calculate ghost offset
 		Image image_for_size = new ImageIcon("src/Images/redGhostGIF.gif").getImage();
@@ -461,7 +452,6 @@ public class Board extends JPanel implements ActionListener{
 		mapUpdater(redGhost.getGrid_x(), redGhost.getGrid_y(), redGhost.getNameOnMap());
 		System.out.println("redGhost grid_x: " + redGhost.getGrid_x() + " y "+redGhost.getGrid_y());
 		System.out.println("redGhost location_x: " + redGhost.getLocation_x() + " y "+redGhost.getLocation_y());
-		
 		x = positions[1].x;
 		y = positions[1].y;
 		direction = positions[1].direction;
@@ -470,7 +460,6 @@ public class Board extends JPanel implements ActionListener{
 		mapUpdater(blueGhost.getGrid_x(), blueGhost.getGrid_y(), blueGhost.getNameOnMap());
 		System.out.println("blueGhost grid_x: " + blueGhost.getGrid_x() + " y "+blueGhost.getGrid_y());
 		System.out.println("blueGhost location_x: " + blueGhost.getLocation_x() + " y "+blueGhost.getLocation_y());
-		
 		x = positions[3].x;
 		y = positions[3].y;
 		direction = positions[3].direction;
@@ -479,7 +468,6 @@ public class Board extends JPanel implements ActionListener{
 		mapUpdater(pinkGhost.getGrid_x(), pinkGhost.getGrid_y(), pinkGhost.getNameOnMap());
 		System.out.println("pinkGhost grid_x: " + pinkGhost.getGrid_x() + " y "+pinkGhost.getGrid_y());
 		System.out.println("pinkGhost location_x: " + pinkGhost.getLocation_x() + " y "+pinkGhost.getLocation_y());
-		
 		x = positions[4].x;
 		y = positions[4].y;
 		direction = positions[4].direction;
@@ -493,7 +481,7 @@ public class Board extends JPanel implements ActionListener{
 	/**
 	 * This function calls the pacman to enter the game
 	 */
-	public void callPacman() {
+	private void callPacman() {
 		Image pacman_image_for_size = new ImageIcon("src/Images/pacman_rightGIF.gif").getImage();
 		double pacman_offset = blockWidth/2 - pacman_image_for_size.getHeight(null)/2;
 		int x = pacman_postion.x;
@@ -511,7 +499,7 @@ public class Board extends JPanel implements ActionListener{
 	/**
 	 * This function calls the power balls to enter the game
 	 */
-	public void callPowerBalls() {
+	private void callPowerBalls() {
 		powerBall_1 = new Power_Ball(null);
 		powerBall_2 = new Power_Ball(null);
 		powerBall_3 = new Power_Ball(null);
@@ -528,7 +516,6 @@ public class Board extends JPanel implements ActionListener{
 		powerBall_1.setLocation_y((int)(powerBall_1.getGrid_y()*blockWidth+boardOffset+offsetPowerBall_w_h));
 		powerBall_1.setStatus(EXISTS);
 		powerBall_1.setNameOnMap("pb1");
-		//map[powerBall_1.getGrid_x()][powerBall_1.getGrid_y()] = powerBall_1.getNameOnMap();
 		mapUpdater(powerBall_1.getGrid_x(), powerBall_1.getGrid_y(), powerBall_1.getNameOnMap());
 		powerBall_2.setGameCharacterImage(power_ball_2_image);
 		powerBall_2.setGrid_x(pbIndex1);
@@ -559,7 +546,7 @@ public class Board extends JPanel implements ActionListener{
 	/**
 	 * This function calls the lives (hearts) to enter the game
 	 */
-	public void callLives() {
+	private void callLives() {
 		Image heart_image_for_size = new ImageIcon("src/Images/heart.png").getImage();
 		double heart_offset = blockWidth/2 - heart_image_for_size.getHeight(null)/2;
 		firstLife = new Lives(null);
@@ -612,6 +599,11 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 
+	/**
+	 * This function draws the hearts on the game screen
+	 * @param g2d
+	 * @param lives
+	 */
 	private void drawLives(Graphics2D g2d, Lives lives) {
 		if(lives.getStatus() == EXISTS) {
 			g2d.drawImage(lives.getGameCharacterImage(), lives.getLocation_y(), 
@@ -620,27 +612,11 @@ public class Board extends JPanel implements ActionListener{
 	}
 
 	/**
-	 * This function gets a general position in pixels and returns a position on the array
-	 * @param locationX
-	 * @param locationY
-	 * @return loc_xy_in_map - location on the map (grid location)
+	 * This function checks whether the position is inside the game board
+	 * @param x
+	 * @param y
+	 * @return true - if the position is inside the game board
 	 */
-	public int[] locationXYinTheArray(int locationX, int locationY) {
-		int []loc_xy_in_map = {-1,-1};
-		boolean pass = sanityCheck(locationX, locationY);
-		if(locationY >= boardOffset && locationY <= (GameConstants.SCREEN_WIDTH - boardOffset) 
-				&& locationX > 0 && locationX <= boardHeight) {
-			//grid_x:
-			loc_xy_in_map[0] = locationX/blockHeight;
-			//grid_y:
-			loc_xy_in_map[1] = (locationY-boardOffset)/blockWidth;
-		}
-		return loc_xy_in_map;
-	}
-
-	// in bounds
-	// x > size/2 x < grid_size-space
-	// y > board_offset+space y < grid_size-space
 	private boolean sanityCheck(int x, int y) {
 		int image_size = redGhost.getGhostImage().getWidth(null);
 		double ghost_offset = (int)blockWidth/2 - image_size/2;
@@ -756,7 +732,12 @@ public class Board extends JPanel implements ActionListener{
 		this.requestFocusInWindow();
 	}
 
-	//is free means WHITE or pb 	
+	/**
+	 * This function checks if the location is available (not a wall)
+	 * @param x
+	 * @param y
+	 * @return true - if it is available
+	 */
 	private boolean isFree(int x, int y) { 	
 		if ((x >= 0 && x <= map.length) && (y >= 0 && y < map.length)) { 			
 			if (!map[x][y].equals(BLUE)) {
@@ -766,8 +747,12 @@ public class Board extends JPanel implements ActionListener{
 		return false;
 	}
 
-	//Write here a code for update score
-	public int updateScore(String ballType) {
+	/**
+	 * This function updates the score according to what the pacman ate
+	 * @param ballType
+	 * @return the updated score
+	 */
+	private int updateScore(String ballType) {
 		int small_ball_points = 10;
 		int power_ball_points = 50;
 		if(ballType == SMALL_BALL) {
@@ -838,12 +823,10 @@ public class Board extends JPanel implements ActionListener{
 		this.repaint();
 	}
 
-	public TimerCountdown timerCountdown() {
-		TimerCountdown timer = new TimerCountdown();
-		timer.timerCountDown1();
-		return timer;
-	}
-
+	/**
+	 * This function checks whether the pacman has reached the power ball,
+	 * and as soon as he has eaten it, a timer of 15 seconds starts, until it reaches to 0
+	 */
 	private void checkPowerBallTimer() {
 		final int second = 1000;
 		if(isItPbLocatin(pacman.getGrid_x(), pacman.getGrid_y())) {
@@ -868,8 +851,13 @@ public class Board extends JPanel implements ActionListener{
 		}			
 	}
 
-	//check if this is the location of the pacman
-	public boolean isItPacmanLocation(int x, int y) {
+	/**
+	 * This function checks whether pacman is in the given location
+	 * @param x
+	 * @param y
+	 * @return true - if pacman is in this location
+	 */
+	private boolean isItPacmanLocation(int x, int y) {
 		if(map[x][y].equals("pac")) { 
 			pacman.setStatus(NOT_EXIST);
 			return true;
@@ -877,64 +865,50 @@ public class Board extends JPanel implements ActionListener{
 		return false;
 	}
 
-	private void checkLifeMassageTimer(Ghosts currentGhost) {
-		final int second = 1000;
-		if(isGhostEatPacman(currentGhost)) {
-			System.out.println("Your lost one life");
-			timerCounter = 4;
-			ActionListener task = new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent evt) {
-					if(timerCounter < 0) {
-						Timer t = (Timer)evt.getSource();
-						t.stop();
-						gameScore.setLifeIsLost("");
-					}
-					else {
-						gameScore.setLifeIsLost("Your lost one life");
-						timerCounter -= 1;
-					}		
-				}
-			};
-			Timer timer = new Timer(second, task);
-			timer.start();
-			updateScore(POWER_BALL);
-		}
-	}
-
-	//check if the ghost eat the pacman
-	public boolean isGhostEatPacman(Ghosts currentGhost){
+	/**
+	 * This function checks if the some ghost has eat the pacman 
+	 * and how many times it has already happened
+	 * if pacman is eaten 3 times, the game is over
+	 * @param currentGhost
+	 */
+	private void isGhostEatPacman(Ghosts currentGhost){
 		if(isItPacmanLocation(currentGhost.getGrid_x(), currentGhost.getGrid_y())){
 			System.out.println("The Ghost eat the pacman");
 			pacman.setLifeLeft(pacman.getLifeLeft()-1);
-			//gameScore.setLifeIsLost("Your lost a life "+ pacman.getLifeLeft() + " left");
+			gameScore.updateLifeMessage("Your lost a life " + pacman.getLifeLeft() + " left");
 			switch(pacman.getLifeLeft()) {
 			case 2:
 				firstLife.setStatus(NOT_EXIST);
-				return true;
+				break;
 			case 1:
 				secondLife.setStatus(NOT_EXIST);
-				return true;
+				break;
 			case 0:
 				thirdLife.setStatus(NOT_EXIST);
-				return true;
+				break;
 				//TODO game end
 			}
 		}
-		return false;
 	}
 
+	/**
+	 * This function updates the map
+	 * @param gridX
+	 * @param gridY
+	 * @param nameOnMap
+	 */
 	private void mapUpdater(int gridX, int gridY, String nameOnMap) {
 		map[gridX][gridY] = nameOnMap;
 		printMap();
 	}
-	//Fix and continue this function
-	public void updateGhost(Ghosts current) {
+
+	/**
+	 * This function updates the position of the ghosts on the game board
+	 * @param current
+	 */
+	private void updateGhost(Ghosts current) {
 		int number_of_steps = blockWidth;
 		boolean pass = sanityCheck(current.getLocation_x(), current.getLocation_y());
-		int prev_grid_x = current.getGrid_x();
-		int prev_grid_y = current.getGrid_y();
-		String name_at_the_next = " ";
 		System.out.println("moveCounter of " + current.getNameOnMap() + ": " + current.getMoveCounter());
 
 		if(current.getMoveCounter() < number_of_steps) {
@@ -958,7 +932,6 @@ public class Board extends JPanel implements ActionListener{
 				int x_prev = current.getGrid_x();
 				int y_prev = current.getGrid_y();
 				String last_value_for_map = current.getStandOn();
-
 				if(current.getDirection().equals(UP) && !map[current.getGrid_x()-1][current.getGrid_y()].equals(BLUE) ) {
 					current.setGrid_x(current.getGrid_x()-1);	
 				}
@@ -972,27 +945,31 @@ public class Board extends JPanel implements ActionListener{
 					current.setGrid_y(current.getGrid_y()-1);
 				}
 				current.setStandOn(map[current.getGrid_x()][current.getGrid_y()]);
-				//if there was small ball in this location-
+				isGhostEatPacman(current);
 				mapUpdater(x_prev, y_prev, last_value_for_map);
 				mapUpdater(current.getGrid_x(), current.getGrid_y(), current.getNameOnMap());
-				//checkLifeMassageTimer(current);
 			}
 		}
 		else if(current.getMoveCounter() >= number_of_steps) {
 			//make sure we are in the right position
 			int x = current.getGrid_x()*blockHeight+ghost_offset;
-			int y = current.getGrid_y()*blockWidth+/*2*blockWidth+*/ghost_offset+boardOffset;
+			int y = current.getGrid_y()*blockWidth+ghost_offset+boardOffset;
 			current.setLocation_x(x);
 			current.setLocation_y(y);
 			current.setMoveCounter(0);
-
-			//lock for possible direction
 			current.setDirection(getGhostDirection(current.getGrid_x(),current.getGrid_y(), current.getDirection()));
 			current.setMoveCounter(current.getMoveCounter()+1);
 		}
 		pass = sanityCheck(current.getLocation_x(), current.getLocation_y());
 	}
 
+	/**
+	 * This function updates the direction of the ghosts
+	 * @param x
+	 * @param y
+	 * @param prev_direction
+	 * @return the updated direction
+	 */
 	private String getGhostDirection(int x, int y, String prev_direction) {
 		direction = "";
 		int index_to_remove;
@@ -1009,7 +986,7 @@ public class Board extends JPanel implements ActionListener{
 		if(y+1 < map.length && !map[x][y+1].equals(BLUE)) {
 			direction = direction.concat(RIGHT);
 		}
-		//check if I need to removw the direction I fame from
+		//check if I need to remove the direction I came from
 		if(prev_direction.equals(LEFT)) {
 			index_to_remove = direction.indexOf(RIGHT);
 			char_to_remove = direction.charAt(index_to_remove);
@@ -1038,7 +1015,6 @@ public class Board extends JPanel implements ActionListener{
 			System.out.println("no direction");
 		}
 		//TODO check if there is ghost at this direction near to it- if there is- go to another direction
-		//if(String.valueOf(direction.charAt(0)).equals(' ')) {
 		if(direction.charAt(0) == ' '){
 			direction =String.valueOf(direction.charAt(1));
 		}
