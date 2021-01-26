@@ -3,8 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
@@ -12,7 +10,6 @@ import Board_Package.Board;
 import Game_Constants_Package.GameConstants;
 import Menu_Package.LoadGameMenu;
 import Menu_Package.Menu;
-import Score_Package.GameScore;
 
 public class Main extends JFrame implements ActionListener {
 
@@ -22,11 +19,7 @@ public class Main extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		Main game_main = new Main();
 		game_main.initFrame(args);
-		
-		//
-		//Timer timer = new Timer(); 
-        //TimerTask task = new Board_Package.HelperForTimer(); 
-        //timer.schedule(task, 1000, 1000); 
+
 	}
 
 	/**
@@ -60,7 +53,6 @@ public class Main extends JFrame implements ActionListener {
 		this.pack();
 	}
 
-	
 	// EB remove override
 	/**
 	 * This function describes the actions that will happen if you press the main buttons
@@ -69,39 +61,28 @@ public class Main extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		int height = GameConstants.SCREEN_HEIGHT;
 		int width = GameConstants.SCREEN_WIDTH;
-		if("newGame".equals(arg0.getActionCommand())) {
+		if(arg0.getActionCommand().equals("newGame")) {
 			this.menu.setVisible(false);
 			this.remove(menu);
 			System.out.println("New Game is pressed");
 			Board game_board = new Board();
-			//UpdatedData updated_data = new UpdatedData();
-			//GameScore score = new GameScore();
-
 			game_board.setPreferredSize(new Dimension(width,height));
 			this.add(game_board, BorderLayout.PAGE_START);
-			//score.setPreferredSize(new Dimension(100,30));
-			//this.add(game_board, BorderLayout.CENTER);
 			this.revalidate();
-			//this.add(score, BorderLayout.SOUTH);
-			//this.revalidate();
 			this.repaint();
 			this.pack();
 			
 		}
-
-		else if("loadGame".equals(arg0.getActionCommand())) {
+		else if(arg0.getActionCommand().equals("loadGame")) {
 			System.out.println("Load Game is pressed");
 			LoadGameMenu load_game_menu = new LoadGameMenu();
-			
-			
+					
 		}
 
 		//if we press the "leaderBoard" button, a new window 
 		//will open with the score table
-		if("leaderBoard".equals(arg0.getActionCommand())) {
+		if(arg0.getActionCommand().equals("leaderBoard")) {
 			System.out.println("Leader Board is pressed");
 		}
-
 	}
-
 }

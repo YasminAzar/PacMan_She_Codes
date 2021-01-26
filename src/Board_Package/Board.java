@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 import javax.swing.ImageIcon;
@@ -39,7 +38,6 @@ class Positions {
 
 public class Board extends JPanel implements ActionListener{
 
-	private BufferedImage redGhostBI, blueGhostBI, pinkGhostBI, orangeGhostBI;
 	private int boardOffset;
 	private int blockWidth;
 	private int blockHeight;
@@ -47,7 +45,6 @@ public class Board extends JPanel implements ActionListener{
 	private int locationBallY;
 	private int randEmptyRow;
 	private int firstIndexInEmptyRow;
-	private int firstPBlocationX, firstPBlocationY;
 	private int pbIndex1, pbIndex2, pbIndex3, pbIndex4, pbIndex5,pbIndex6;
 	private int boardWidth, boardHeight;
 	Ghosts redGhost, blueGhost, pinkGhost, orangeGhost;
@@ -763,7 +760,7 @@ public class Board extends JPanel implements ActionListener{
 		}
 		System.out.println("Score: " + gameScore.getScore());
 	}
-	
+
 	/**
 	 * This function checks if the Pacman has reached the power ball
 	 * @param x
