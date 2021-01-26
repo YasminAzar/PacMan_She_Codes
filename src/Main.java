@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import Board_Package.Board;
 import Game_Constants_Package.GameConstants;
+import Menu_Package.LoadGameMenu;
 import Menu_Package.Menu;
 import Score_Package.GameScore;
 
@@ -90,6 +91,9 @@ public class Main extends JFrame implements ActionListener {
 
 		else if("loadGame".equals(arg0.getActionCommand())) {
 			System.out.println("Load Game is pressed");
+			LoadGameMenu load_game_menu = new LoadGameMenu();
+			
+			
 		}
 
 		//if we press the "leaderBoard" button, a new window 

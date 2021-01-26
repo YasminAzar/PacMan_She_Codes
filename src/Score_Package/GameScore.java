@@ -20,7 +20,6 @@ public class GameScore extends JPanel implements ActionListener {
 	int score = 0;
 	int powerBallCounter = 0;
 	String lifeIsLost = "";
-	int timerCounter;
 	
 	public String getLifeIsLost() {
 		return lifeIsLost;
@@ -94,29 +93,20 @@ public class GameScore extends JPanel implements ActionListener {
 	     timer.start();
 	}*/
 	public void updateLifeMessage(String message) {
-		final int second = 1000;
-		
+		final int second = 4000;
+		setLifeIsLost(message);
 			System.out.println("Your lost one life");
-			timerCounter = 4;
 			ActionListener task = new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent evt) {
-					if(timerCounter < 0) {
 						Timer t = (Timer)evt.getSource();
 						t.stop();
 						setLifeIsLost("");
-					}
-					else {
-						setLifeIsLost("Your lost one life");
-						timerCounter -= 1;
 					}		
-				}
 			};
 			Timer timer = new Timer(second, task);
 			timer.start();
 		}
-	
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

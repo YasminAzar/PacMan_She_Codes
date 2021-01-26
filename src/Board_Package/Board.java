@@ -39,17 +39,17 @@ class Positions {
 
 public class Board extends JPanel implements ActionListener{
 
-	public BufferedImage redGhostBI, blueGhostBI, pinkGhostBI, orangeGhostBI;
-	public int boardOffset;
-	public int blockWidth;
-	public int blockHeight;
-	public int locationBallX;
-	public int locationBallY;
-	public int randEmptyRow;
-	public int firstIndexInEmptyRow;
-	public int firstPBlocationX, firstPBlocationY;
-	public int pbIndex1, pbIndex2, pbIndex3, pbIndex4, pbIndex5,pbIndex6;
-	public int boardWidth, boardHeight;
+	private BufferedImage redGhostBI, blueGhostBI, pinkGhostBI, orangeGhostBI;
+	private int boardOffset;
+	private int blockWidth;
+	private int blockHeight;
+	private int locationBallX;
+	private int locationBallY;
+	private int randEmptyRow;
+	private int firstIndexInEmptyRow;
+	private int firstPBlocationX, firstPBlocationY;
+	private int pbIndex1, pbIndex2, pbIndex3, pbIndex4, pbIndex5,pbIndex6;
+	private int boardWidth, boardHeight;
 	Ghosts redGhost, blueGhost, pinkGhost, orangeGhost;
 	Pacman pacman;
 	Power_Ball powerBall_1, powerBall_2, powerBall_3, powerBall_4;
@@ -310,8 +310,8 @@ public class Board extends JPanel implements ActionListener{
 			if(rows[i] == 1) {
 				// check from row 1 where i can go down
 				for (j = 3; j < map.length; j++) {
-					System.out.println("j " + j + " rows[i] " + rows[i] + " map " + " map[rows[i]][j] " + map[rows[i]][j] + " +1 "+  map[rows[i]][j+1]);
-					if(map[rows[i]][j].equals(WHITE) && map[rows[i]][j+1].equals(WHITE)) {
+					System.out.println("j " + j + " rows[i] " + rows[i] + " map " + " map[rows[i]][j] " + map[rows[i]][j] + " +1 "+  map[rows[i]+1][j]);
+					if(map[rows[i]][j].equals(WHITE) && map[rows[i]+1][j].equals(WHITE)) {
 						//I get down
 						positions[i].setData(rows[i], j, "rg", DOWN);
 						break;
@@ -353,8 +353,8 @@ public class Board extends JPanel implements ActionListener{
 			}
 			else if(rows[i] == 13) {
 				for (j = 9; j < map.length; j++) {
-					System.out.println("j " + j + " rows[i] " + rows[i] + " map " + " map[rows[i]][j] " + map[rows[i]][j] + " -1 "+  map[rows[i-1]][j]);
-					if(map[rows[i]][j].equals(WHITE) && map[rows[i-1]][j].equals(WHITE)) {
+					System.out.println("j " + j + " rows[i] " + rows[i] + " map " + " map[rows[i]][j] " + map[rows[i]][j] + " -1 "+  map[rows[i]-1][j]);
+					if(map[rows[i]][j].equals(WHITE) && map[rows[i]-1][j].equals(WHITE)) {
 						//I get up
 						positions[i].setData(rows[i], j, "og", UP);
 						break;
@@ -617,17 +617,16 @@ public class Board extends JPanel implements ActionListener{
 	 * @param y
 	 * @return true - if the position is inside the game board
 	 */
-	private boolean sanityCheck(int x, int y) {
+	private void sanityCheck(int x, int y) {
 		int image_size = redGhost.getGhostImage().getWidth(null);
 		double ghost_offset = (int)blockWidth/2 - image_size/2;
 		if ((y >= boardOffset+ghost_offset-1) && (y <= boardOffset+blockWidth*map.length-ghost_offset)) {
 			if  ((x >= ghost_offset) && (x <= blockWidth*map.length-ghost_offset)) {
 				System.out.println("OK " + " x " + x + " y " + y);
-				return true;
 			}
 		}
-		System.out.println("NOT OK " + " x " + x + " y " + y);
-		return false;
+		else
+			System.out.println("NOT OK " + " x " + x + " y " + y);
 	}
 
 	/**
@@ -752,7 +751,7 @@ public class Board extends JPanel implements ActionListener{
 	 * @param ballType
 	 * @return the updated score
 	 */
-	private int updateScore(String ballType) {
+	private void updateScore(String ballType) {
 		int small_ball_points = 10;
 		int power_ball_points = 50;
 		if(ballType == SMALL_BALL) {
@@ -760,11 +759,11 @@ public class Board extends JPanel implements ActionListener{
 		}
 		else if(ballType == POWER_BALL) {
 			gameScore.setScore(gameScore.getScore() + power_ball_points);
+			pacman.changeToImortal();
 		}
 		System.out.println("Score: " + gameScore.getScore());
-		return gameScore.getScore();
 	}
-
+	
 	/**
 	 * This function checks if the Pacman has reached the power ball
 	 * @param x
@@ -802,11 +801,6 @@ public class Board extends JPanel implements ActionListener{
 			return true;
 		}
 		return false;
-	}
-
-
-	public void init() {
-
 	}
 
 	private void scorePanel() {
@@ -872,6 +866,7 @@ public class Board extends JPanel implements ActionListener{
 	 * @param currentGhost
 	 */
 	private void isGhostEatPacman(Ghosts currentGhost){
+		if(pacman.isImortal() == true) return;
 		if(isItPacmanLocation(currentGhost.getGrid_x(), currentGhost.getGrid_y())){
 			System.out.println("The Ghost eat the pacman");
 			pacman.setLifeLeft(pacman.getLifeLeft()-1);
@@ -908,7 +903,6 @@ public class Board extends JPanel implements ActionListener{
 	 */
 	private void updateGhost(Ghosts current) {
 		int number_of_steps = blockWidth;
-		boolean pass = sanityCheck(current.getLocation_x(), current.getLocation_y());
 		System.out.println("moveCounter of " + current.getNameOnMap() + ": " + current.getMoveCounter());
 
 		if(current.getMoveCounter() < number_of_steps) {
@@ -960,7 +954,7 @@ public class Board extends JPanel implements ActionListener{
 			current.setDirection(getGhostDirection(current.getGrid_x(),current.getGrid_y(), current.getDirection()));
 			current.setMoveCounter(current.getMoveCounter()+1);
 		}
-		pass = sanityCheck(current.getLocation_x(), current.getLocation_y());
+		sanityCheck(current.getLocation_x(), current.getLocation_y());
 	}
 
 	/**
@@ -1014,14 +1008,20 @@ public class Board extends JPanel implements ActionListener{
 		if(direction.length() == 0) {
 			System.out.println("no direction");
 		}
+		String temp = "";
+		for (int i = 0; i < direction.length(); i++) {
+			if(direction.charAt(i) != ' ') {
+				temp = temp.concat(String.valueOf(direction.charAt(i)));
+			}
+		}
 		//TODO check if there is ghost at this direction near to it- if there is- go to another direction
-		if(direction.charAt(0) == ' '){
-			direction =String.valueOf(direction.charAt(1));
+		if(temp.length() == 1) {
+			return temp;
 		}
 		else {
-			direction =String.valueOf(direction.charAt(0));
+			int r = (int) Math.random()*temp.length();
+			return String.valueOf(temp.charAt(r));
 		}
-		return direction;
 	}
 
 	@Override

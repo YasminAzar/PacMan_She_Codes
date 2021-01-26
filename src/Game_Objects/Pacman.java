@@ -1,14 +1,26 @@
 package Game_Objects;
 
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 public class Pacman extends GameCharacter{
 
 	private Image pacmanImage;
 	private String nameOnMap;
-	private int lifeLeft; 
+	private int lifeLeft;
+	private boolean isImortal;
+
+	public boolean isImortal() {
+		return isImortal;
+	}
+
+	public void setImortal(boolean isImortal) {
+		this.isImortal = isImortal;
+	}
 
 	public String getNameOnMap() {
 		return nameOnMap;
@@ -32,6 +44,7 @@ public class Pacman extends GameCharacter{
 		this.setLocation_y(location_y);;
 		this.setDirection(direction);
 		this.setLifeLeft(3);
+		this.isImortal = false;
 	}
 	public int getLifeLeft() {
 		return lifeLeft;
@@ -47,5 +60,19 @@ public class Pacman extends GameCharacter{
 
 	public void setPacmanImage(Image image) {
 		this.pacmanImage = image;
+	}
+	public void changeToImortal() {
+		this.isImortal = true;
+		final int second = 15000;
+			ActionListener task = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+						Timer t = (Timer)evt.getSource();
+						t.stop();
+						setImortal(false);
+					}		
+			};
+			Timer timer = new Timer(second, task);
+			timer.start();
 	}
 }
