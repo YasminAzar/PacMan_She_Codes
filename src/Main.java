@@ -74,9 +74,17 @@ public class Main extends JFrame implements ActionListener {
 			
 		}
 		else if(arg0.getActionCommand().equals("loadGame")) {
+			this.menu.setVisible(false);
+			this.remove(menu);
 			System.out.println("Load Game is pressed");
 			LoadGameMenu load_game_menu = new LoadGameMenu();
-					
+			load_game_menu.firstGameOption.addActionListener(this);
+			load_game_menu.secondGameOption.addActionListener(this);
+			load_game_menu.thirdGameOption.addActionListener(this);
+			this.add(load_game_menu/*, BorderLayout.PAGE_START*/);
+			this.revalidate();
+			this.repaint();
+			this.pack();	
 		}
 
 		//if we press the "leaderBoard" button, a new window 

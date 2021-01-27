@@ -6,46 +6,55 @@ import java.awt.GridBagLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import org.w3c.dom.Text;
 
 public class LoadGameMenu extends JPanel {
 
 	public JButton firstGameOption;
 	public JButton secondGameOption;
 	public JButton thirdGameOption;
+	public JTextField title; 
 
 	public LoadGameMenu() {
-		setBorder(new EmptyBorder(10,10,10,10));
+		//setBorder(new EmptyBorder(10,10,10,10));
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		//gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		//creatPanel(gbc);
+		creatPanel(gbc);
 	}
 	
-	//This function display the panel with the main buttons
-	/*	public void creatPanel(GridBagConstraints gbc)  {
-			newGame = new JButton(new ImageIcon("src/Images/button_new_game.png"));
-			loadGame = new JButton(new ImageIcon("src/Images/button_load_game.png"));
-			leaderBoard = new JButton(new ImageIcon("src/Images/button_leader_board.png"));
+	//This function display the panel with the load game buttons
+		public void creatPanel(GridBagConstraints gbc)  {
+			firstGameOption = new JButton(new ImageIcon("src/Images/board_1_image.png"));
+			secondGameOption = new JButton(new ImageIcon("src/Images/board_2_image.png"));
+			thirdGameOption = new JButton(new ImageIcon("src/Images/board_3_image.png"));
+			title = new JTextField("Please select the game board:", 20); 
 
-			newGame.setActionCommand("newGame");
-			loadGame.setActionCommand("loadGame");
-			leaderBoard.setActionCommand("leaderBoard");
+			firstGameOption.setActionCommand("firstGameOption");
+			secondGameOption.setActionCommand("secondGameOption");
+			thirdGameOption.setActionCommand("thirdGameOption");
 			this.revalidate();
 			this.repaint();
-			// EB remove we control it from the main
-			//newGame.addActionListener(this);
-			//loadGame.addActionListener(this);
-			//leaderBoard.addActionListener(this);
-
-			this.add(newGame, gbc);
-			this.add(loadGame, gbc);
-			this.add(leaderBoard, gbc);
+			gbc.gridx = 1;
+			gbc.gridy = 0;
+			//gbc.anchor = GridBagConstraints.NORTH;
+			this.add(title, gbc);
+			gbc.gridx = 0;
+			gbc.gridy = 2;
+			this.add(firstGameOption, gbc);
+			gbc.gridx = 1;
+			gbc.gridy = 2;
+			this.add(secondGameOption, gbc);
+			gbc.gridx = 2;
+			gbc.gridy = 2;
+			this.add(thirdGameOption, gbc);
 			this.revalidate();
 			this.repaint();
-		}*/
+		}
 }

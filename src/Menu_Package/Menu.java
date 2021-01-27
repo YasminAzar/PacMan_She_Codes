@@ -30,6 +30,9 @@ public class Menu extends JPanel implements  ActionListener  {
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		
+		//gbc.ipady = 150;
+		//gbc.ipadx = 150;
 		createPanel(gbc);
 	}
 
@@ -41,6 +44,24 @@ public class Menu extends JPanel implements  ActionListener  {
 		newGame = new JButton(new ImageIcon("src/Images/button_new_game.png"));
 		loadGame = new JButton(new ImageIcon("src/Images/button_load_game.png"));
 		leaderBoard = new JButton(new ImageIcon("src/Images/button_leader_board.png"));
+		/*newGame = new JButton(new ImageIcon("src/Images/button_new_game.png")) {
+			{
+			setSize(200, 50);
+            setMaximumSize(getSize());
+			}
+		};
+		loadGame = new JButton(new ImageIcon("src/Images/button_load_game.png")){
+			{
+			setSize(200, 50);
+            setMaximumSize(getSize());
+			}
+		};
+		leaderBoard = new JButton(new ImageIcon("src/Images/button_leader_board.png")){
+			{
+			setSize(200, 50);
+            setMaximumSize(getSize());
+			}
+		};*/
 
 		newGame.setActionCommand("newGame");
 		loadGame.setActionCommand("loadGame");
