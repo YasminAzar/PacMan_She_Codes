@@ -2,6 +2,7 @@ package Menu_Package;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +27,9 @@ public class LoadGameMenu extends JPanel {
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(30,10,0,10);
+		//gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.BOTH;
 		creatPanel(gbc);
 	}
 	
@@ -34,7 +38,7 @@ public class LoadGameMenu extends JPanel {
 			firstGameOption = new JButton(new ImageIcon("src/Images/board_1_image.png"));
 			secondGameOption = new JButton(new ImageIcon("src/Images/board_2_image.png"));
 			thirdGameOption = new JButton(new ImageIcon("src/Images/board_3_image.png"));
-			title = new JTextField("Please select the game board:", 20); 
+			title = new JTextField("            Please select the game board:", 20); 
 			firstGameOption.setActionCommand("firstGameOption");
 			secondGameOption.setActionCommand("secondGameOption");
 			thirdGameOption.setActionCommand("thirdGameOption");
