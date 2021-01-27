@@ -35,12 +35,11 @@ public class LoadGameMenu extends JPanel {
 			secondGameOption = new JButton(new ImageIcon("src/Images/board_2_image.png"));
 			thirdGameOption = new JButton(new ImageIcon("src/Images/board_3_image.png"));
 			title = new JTextField("Please select the game board:", 20); 
-
 			firstGameOption.setActionCommand("firstGameOption");
 			secondGameOption.setActionCommand("secondGameOption");
 			thirdGameOption.setActionCommand("thirdGameOption");
-			this.revalidate();
-			this.repaint();
+			//this.revalidate();
+			//this.repaint();
 			gbc.gridx = 1;
 			gbc.gridy = 0;
 			//gbc.anchor = GridBagConstraints.NORTH;

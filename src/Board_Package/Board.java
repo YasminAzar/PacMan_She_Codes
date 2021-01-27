@@ -497,46 +497,27 @@ public class Board extends JPanel implements ActionListener{
 	 * This function calls the power balls to enter the game
 	 */
 	private void callPowerBalls() {
-		powerBall_1 = new Power_Ball(null);
-		powerBall_2 = new Power_Ball(null);
-		powerBall_3 = new Power_Ball(null);
-		powerBall_4 = new Power_Ball(null);
-		Image power_ball_1_image = new ImageIcon("src/Images/powerball.png").getImage();
-		Image power_ball_2_image = new ImageIcon("src/Images/powerball.png").getImage();
-		Image power_ball_3_image = new ImageIcon("src/Images/powerball.png").getImage();
-		Image power_ball_4_image = new ImageIcon("src/Images/powerball.png").getImage();
-		double offsetPowerBall_w_h = blockWidth/2 - power_ball_1_image.getHeight(null)/2;;
-		powerBall_1.setGameCharacterImage(power_ball_1_image);
-		powerBall_1.setGrid_x(pbIndex1);
-		powerBall_1.setGrid_y(pbIndex2);
-		powerBall_1.setLocation_x(powerBall_1.getGrid_x()*blockHeight + (int)offsetPowerBall_w_h);
-		powerBall_1.setLocation_y((int)(powerBall_1.getGrid_y()*blockWidth+boardOffset+offsetPowerBall_w_h));
-		powerBall_1.setStatus(EXISTS);
-		powerBall_1.setNameOnMap("pb1");
+		Image power_ball_image_for_size = new ImageIcon("src/Images/powerball.png").getImage();
+		double offsetPowerBall_w_h = blockWidth/2 - power_ball_image_for_size.getHeight(null)/2;
+		powerBall_1 = new Power_Ball("src/Images/powerball.png", pbIndex1, pbIndex2, 
+				pbIndex1*blockHeight + (int)offsetPowerBall_w_h, 
+				(int)(pbIndex2*blockWidth+boardOffset+offsetPowerBall_w_h), 
+				EXISTS, "pb1");
 		mapUpdater(powerBall_1.getGrid_x(), powerBall_1.getGrid_y(), powerBall_1.getNameOnMap());
-		powerBall_2.setGameCharacterImage(power_ball_2_image);
-		powerBall_2.setGrid_x(pbIndex1);
-		powerBall_2.setGrid_y(pbIndex3);
-		powerBall_2.setLocation_x(powerBall_2.getGrid_x()*blockHeight + (int)offsetPowerBall_w_h);
-		powerBall_2.setLocation_y((int)(powerBall_2.getGrid_y()*blockWidth+boardOffset+offsetPowerBall_w_h));
-		powerBall_2.setStatus(EXISTS);
-		powerBall_2.setNameOnMap("pb2");
+		powerBall_2 = new Power_Ball("src/Images/powerball.png", pbIndex1, pbIndex3, 
+				pbIndex1*blockHeight + (int)offsetPowerBall_w_h, 
+				(int)(pbIndex3*blockWidth+boardOffset+offsetPowerBall_w_h), 
+				EXISTS, "pb2");
 		mapUpdater(powerBall_2.getGrid_x(), powerBall_2.getGrid_y(), powerBall_2.getNameOnMap());
-		powerBall_3.setGameCharacterImage(power_ball_3_image);
-		powerBall_3.setGrid_x(pbIndex4);
-		powerBall_3.setGrid_y(pbIndex5);
-		powerBall_3.setLocation_x(powerBall_3.getGrid_x()*blockHeight + (int)offsetPowerBall_w_h);
-		powerBall_3.setLocation_y((int)(powerBall_3.getGrid_y()*blockWidth+boardOffset+offsetPowerBall_w_h));
-		powerBall_3.setStatus(EXISTS);
-		powerBall_3.setNameOnMap("pb3");
+		powerBall_3 = new Power_Ball("src/Images/powerball.png", pbIndex4, pbIndex5, 
+				pbIndex4*blockHeight + (int)offsetPowerBall_w_h, 
+				(int)(pbIndex5*blockWidth+boardOffset+offsetPowerBall_w_h), 
+				EXISTS, "pb3");
 		mapUpdater(powerBall_3.getGrid_x(), powerBall_3.getGrid_y(), powerBall_3.getNameOnMap());
-		powerBall_4.setGameCharacterImage(power_ball_4_image);
-		powerBall_4.setGrid_x(pbIndex4);
-		powerBall_4.setGrid_y(pbIndex6);
-		powerBall_4.setLocation_x(powerBall_4.getGrid_x()*blockHeight + (int)offsetPowerBall_w_h);
-		powerBall_4.setLocation_y((int)(powerBall_4.getGrid_y()*blockWidth+boardOffset+offsetPowerBall_w_h));
-		powerBall_4.setStatus(EXISTS);
-		powerBall_4.setNameOnMap("pb4");
+		powerBall_4 = new Power_Ball("src/Images/powerball.png", pbIndex4, pbIndex6, 
+				pbIndex4*blockHeight + (int)offsetPowerBall_w_h, 
+				(int)(pbIndex6*blockWidth+boardOffset+offsetPowerBall_w_h), 
+				EXISTS, "pb4");
 		mapUpdater(powerBall_4.getGrid_x(), powerBall_4.getGrid_y(), powerBall_4.getNameOnMap());
 	}
 
@@ -546,24 +527,15 @@ public class Board extends JPanel implements ActionListener{
 	private void callLives() {
 		Image heart_image_for_size = new ImageIcon("src/Images/heart.png").getImage();
 		double heart_offset = blockWidth/2 - heart_image_for_size.getHeight(null)/2;
-		firstLife = new Lives(null);
-		secondLife = new Lives(null);
-		thirdLife = new Lives(null);
-		Image first_life_image = new ImageIcon("src/Images/heart.png").getImage();
-		Image second_life_image = new ImageIcon("src/Images/heart.png").getImage();
-		Image third_life_image = new ImageIcon("src/Images/heart.png").getImage();
-		firstLife.setGameCharacterImage(first_life_image);
-		firstLife.setLocation_x((int)(GameConstants.SCREEN_HEIGHT/2 - heart_image_for_size.getHeight(null)*4));
-		firstLife.setLocation_y((int)(boardOffset/2-heart_offset));
-		firstLife.setStatus(EXISTS);
-		secondLife.setGameCharacterImage(second_life_image);
-		secondLife.setLocation_x((int)(GameConstants.SCREEN_HEIGHT/2- heart_image_for_size.getHeight(null)));
-		secondLife.setLocation_y((int)(boardOffset/2-heart_offset));
-		secondLife.setStatus(EXISTS);
-		thirdLife.setGameCharacterImage(third_life_image);
-		thirdLife.setLocation_x((int)(GameConstants.SCREEN_HEIGHT/2 + heart_image_for_size.getHeight(null)*2));
-		thirdLife.setLocation_y((int)(boardOffset/2-heart_offset));
-		thirdLife.setStatus(EXISTS);
+		firstLife = new Lives("src/Images/heart.png",
+				(int)(GameConstants.SCREEN_HEIGHT/2 - heart_image_for_size.getHeight(null)*4),
+				(int)(boardOffset/2-heart_offset), EXISTS);
+		secondLife = new Lives("src/Images/heart.png",
+				(int)(GameConstants.SCREEN_HEIGHT/2- heart_image_for_size.getHeight(null)),
+				(int)(boardOffset/2-heart_offset), EXISTS);
+		thirdLife = new Lives("src/Images/heart.png",
+				(int)(GameConstants.SCREEN_HEIGHT/2 + heart_image_for_size.getHeight(null)*2),
+				(int)(boardOffset/2-heart_offset), EXISTS);
 	}
 
 	/**
@@ -591,7 +563,7 @@ public class Board extends JPanel implements ActionListener{
 	 */
 	private void drawPowerBall(Graphics2D g2d, Power_Ball powerBall) {
 		if(powerBall.getStatus() == EXISTS) {
-			g2d.drawImage(powerBall.getGameCharacterImage(), powerBall.getLocation_y(), 
+			g2d.drawImage(powerBall.getPowerBallImage(), powerBall.getLocation_y(), 
 					powerBall.getLocation_x(), this);
 		}
 	}
@@ -603,7 +575,7 @@ public class Board extends JPanel implements ActionListener{
 	 */
 	private void drawLives(Graphics2D g2d, Lives lives) {
 		if(lives.getStatus() == EXISTS) {
-			g2d.drawImage(lives.getGameCharacterImage(), lives.getLocation_y(), 
+			g2d.drawImage(lives.getHeartImage(), lives.getLocation_y(), 
 					lives.getLocation_x(), this);
 		}
 	}
