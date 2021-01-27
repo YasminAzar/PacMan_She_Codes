@@ -5,16 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-
-import Game_Objects.Ghosts;
 
 public class GameScore extends JPanel implements ActionListener {
 	int score = 0;

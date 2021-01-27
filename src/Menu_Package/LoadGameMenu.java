@@ -1,5 +1,7 @@
 package Menu_Package;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import org.w3c.dom.Text;
 
 public class LoadGameMenu extends JPanel {
 
@@ -19,7 +20,7 @@ public class LoadGameMenu extends JPanel {
 	public JTextField title; 
 
 	public LoadGameMenu() {
-		//setBorder(new EmptyBorder(10,10,10,10));
+		setBorder(new EmptyBorder(10,10,10,10));
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -42,11 +43,10 @@ public class LoadGameMenu extends JPanel {
 			firstGameOption.setActionCommand("firstGameOption");
 			secondGameOption.setActionCommand("secondGameOption");
 			thirdGameOption.setActionCommand("thirdGameOption");
-			//this.revalidate();
-			//this.repaint();
+			this.revalidate();
+			this.repaint();
 			gbc.gridx = 1;
 			gbc.gridy = 0;
-			//gbc.anchor = GridBagConstraints.NORTH;
 			this.add(title, gbc);
 			gbc.gridx = 0;
 			gbc.gridy = 2;
@@ -60,4 +60,14 @@ public class LoadGameMenu extends JPanel {
 			this.revalidate();
 			this.repaint();
 		}
+		
+		/**
+		 * This function defines a black background
+		 */
+		/*public void paint(Graphics g) {
+			int w = getSize().width;
+			int h = getSize().height;
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, w, h);
+		}*/
 }

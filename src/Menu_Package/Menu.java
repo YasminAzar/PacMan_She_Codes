@@ -47,21 +47,13 @@ public class Menu extends JPanel implements  ActionListener  {
 		newGame = new JButton(new ImageIcon("src/Images/button_new_game.png"));
 		loadGame = new JButton(new ImageIcon("src/Images/button_load_game.png"));
 		leaderBoard = new JButton(new ImageIcon("src/Images/button_leader_board.png"));
-
 		newGame.setActionCommand("newGame");
 		loadGame.setActionCommand("loadGame");
 		leaderBoard.setActionCommand("leaderBoard");
-		//newGame.setSize((int)(getWidth()*0.1), (int)(getHeight()*0.11));
 		this.revalidate();
 		this.repaint();
-		//gbc.gridx = 0;
-		//gbc.gridy = 0;
 		this.add(newGame, gbc);
-		//gbc.gridx = 0;
-		//gbc.gridy = 1;
 		this.add(loadGame, gbc);
-		//gbc.gridx = 0;
-		//gbc.gridy = 2;
 		this.add(leaderBoard, gbc);
 		this.revalidate();
 		this.repaint();
