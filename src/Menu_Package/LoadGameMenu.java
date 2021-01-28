@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class LoadGameMenu extends JPanel {
+public class LoadGameMenu extends JPanel implements  ActionListener  {
 
 	public JButton firstGameOption;
 	public JButton secondGameOption;
@@ -31,6 +33,14 @@ public class LoadGameMenu extends JPanel {
 		gbc.insets = new Insets(30,10,0,10);
 		//gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.BOTH;
+		/*GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.anchor = GridBagConstraints.NORTH;
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(10,0,10,0);
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.fill = GridBagConstraints.BOTH;*/
 		creatPanel(gbc);
 	}
 	
@@ -43,6 +53,13 @@ public class LoadGameMenu extends JPanel {
 			firstGameOption.setActionCommand("firstGameOption");
 			secondGameOption.setActionCommand("secondGameOption");
 			thirdGameOption.setActionCommand("thirdGameOption");
+			/*this.revalidate();
+			this.repaint();
+			this.add(firstGameOption, gbc);
+			this.add(secondGameOption, gbc);
+			this.add(thirdGameOption, gbc);
+			this.revalidate();
+			this.repaint();*/
 			this.revalidate();
 			this.repaint();
 			gbc.gridx = 1;
@@ -59,15 +76,21 @@ public class LoadGameMenu extends JPanel {
 			this.add(thirdGameOption, gbc);
 			this.revalidate();
 			this.repaint();
+			
 		}
 		
 		/**
 		 * This function defines a black background
 		 */
-		/*public void paint(Graphics g) {
+		public void paint(Graphics g) {
 			int w = getSize().width;
 			int h = getSize().height;
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, w, h);
-		}*/
+		}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			//this.dispatchEvent (e);
+		}
 }

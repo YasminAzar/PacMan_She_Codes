@@ -48,7 +48,8 @@ public class Board extends JPanel implements ActionListener{
 	Power_Ball powerBall_1, powerBall_2, powerBall_3, powerBall_4;
 	Lives firstLife, secondLife, thirdLife;
 	GameScore gameScore;
-	String [][]map = Game_Constants_Package.GameConstants.BOARD_OPTION_1.clone() ;
+	String [][]map;
+	//= Game_Constants_Package.GameConstants.BOARD_OPTION_1.clone() ;
 	final String UP = "U";
 	final String DOWN = "D";
 	final String LEFT = "L";
@@ -76,7 +77,16 @@ public class Board extends JPanel implements ActionListener{
 	int [] pacmanLoc = new int[2];
 	private Menu menu;
 
-	public Board() {
+	public Board(int board_number) {
+		if (board_number == 1) {	
+			map = Game_Constants_Package.GameConstants.BOARD_OPTION_1.clone() ;	
+		} 
+		else if (board_number == 2) {	
+			map = Game_Constants_Package.GameConstants.BOARD_OPTION_2.clone() ;	
+		} 
+		else {	
+			map = Game_Constants_Package.GameConstants.BOARD_OPTION_3.clone() ;	
+		}
 		boardWidth = (int)(GameConstants.SCREEN_WIDTH * GameConstants.BOARD_PERCENT);
 		boardHeight = (int)(GameConstants.SCREEN_HEIGHT * GameConstants.BOARD_PERCENT);
 		blockWidth = calcBlockSize(map.length, boardWidth,boardHeight)[0];
@@ -524,6 +534,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setLocation_x(pacman.getGrid_x()*blockHeight+(int)pacman_offset);
 						pacman.setLocation_y(boardOffset+(pacman.getGrid_y()*blockWidth)+(int)pacman_offset);
 						pacman.setPacmanImage(pacman_image_up);
+						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
@@ -542,6 +553,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setLocation_x(pacman.getGrid_x()*blockHeight+(int)pacman_offset);
 						pacman.setLocation_y(boardOffset+(pacman.getGrid_y()*blockWidth)+(int)pacman_offset);
 						pacman.setPacmanImage(pacman_image_down);
+						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
@@ -560,6 +572,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setLocation_x(pacman.getGrid_x()*blockHeight+(int)pacman_offset);
 						pacman.setLocation_y(boardOffset+(pacman.getGrid_y()*blockWidth)+(int)pacman_offset);
 						pacman.setPacmanImage(pacman_image_left);
+						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
@@ -578,6 +591,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setLocation_x(pacman.getGrid_x()*blockHeight+(int)pacman_offset);
 						pacman.setLocation_y(boardOffset+(pacman.getGrid_y()*blockWidth)+(int)pacman_offset);
 						pacman.setPacmanImage(pacman_image_right);
+						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
@@ -632,20 +646,26 @@ public class Board extends JPanel implements ActionListener{
 	//This function check if there is not more balls on the board
 	private void isThePacmanEatAllBalls() {
 		//boolean isTheBoardCealn = false;
-		int ballsCounter = 0;
+		boolean thereIsBalls = false;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map.length; j++) {
-				if(map[i][j].equals(EMPTY)) {
-					ballsCounter++;
+				if(map[i][j].equals(SMALL_BALL)) {
+					thereIsBalls = true;
 				}	
 			}	
 		}
-		
-		if(ballsCounter == map.length*map.length) {
+		if(thereIsBalls == false){
+			PopupGameOver popup_game_over = new PopupGameOver();
+			menu = new Menu();
+			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
+			popup_game_over.po.show();
+			
+		}
+		/*if(ballsCounter == map.length*map.length) {
 			PopupGameOver popup_game_over = new PopupGameOver();
 			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.pwin, boardWidth/3, boardHeight/3); 
 			popup_game_over.po.show();
-		}
+		}*/
 	}
 	private void isItGhostLocation(int x, int y) {
 		if(pacman.isImortal() == true) return;

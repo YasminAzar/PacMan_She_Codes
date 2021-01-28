@@ -13,8 +13,9 @@ import Menu_Package.Menu;
 
 public class Main extends JFrame implements ActionListener {
 
-	//private static Main gameMain;
+	private static Main gameMain;
 	private Menu menu;
+	private LoadGameMenu loadGameMenu;
 
 	public static void main(String[] args) {
 		Main game_main = new Main();
@@ -65,23 +66,23 @@ public class Main extends JFrame implements ActionListener {
 			this.menu.setVisible(false);
 			this.remove(menu);
 			System.out.println("New Game is pressed");
-			Board game_board = new Board();
+			Board game_board = new Board(1);
 			game_board.setPreferredSize(new Dimension(width,height));
 			this.add(game_board, BorderLayout.PAGE_START);
 			this.revalidate();
 			this.repaint();
 			this.pack();
-			
+
 		}
 		else if(arg0.getActionCommand().equals("loadGame")) {
 			this.menu.setVisible(false);
 			this.remove(menu);
 			System.out.println("Load Game is pressed");
-			LoadGameMenu load_game_menu = new LoadGameMenu();
-			load_game_menu.firstGameOption.addActionListener(this);
-			load_game_menu.secondGameOption.addActionListener(this);
-			load_game_menu.thirdGameOption.addActionListener(this);
-			this.add(load_game_menu/*, BorderLayout.PAGE_START*/);
+			loadGameMenu = new LoadGameMenu();
+			loadGameMenu.firstGameOption.addActionListener(new LoadGameActionListener());
+			loadGameMenu.secondGameOption.addActionListener(new LoadGameActionListener());
+			loadGameMenu.thirdGameOption.addActionListener(new LoadGameActionListener());
+			this.add(loadGameMenu/*, BorderLayout.PAGE_START*/);
 			this.revalidate();
 			this.repaint();
 			this.pack();	
@@ -93,4 +94,35 @@ public class Main extends JFrame implements ActionListener {
 			System.out.println("Leader Board is pressed");
 		}
 	}
+
+	class LoadGameActionListener implements ActionListener  {
+		public void actionPerformed(ActionEvent e) {
+			//do something usefull
+			//.....
+			int height = GameConstants.SCREEN_HEIGHT;
+			int width = GameConstants.SCREEN_WIDTH;
+			System.out.println("LoadGameActionListener "+e.getActionCommand());
+			System.out.println("LoadGameActionListener "+e.getActionCommand());
+			int board_number;
+			if(e.getActionCommand().equals("firstGameOption")) {
+				board_number = 1;
+			} 
+			else if(e.getActionCommand().equals("secondGameOption")) {
+				board_number = 2;
+			} 
+			else {
+				board_number = 3;
+			}
+
+			loadGameMenu.setVisible(false);
+			loadGameMenu.remove(menu);
+			Board game_board = new Board(board_number);
+			game_board.setPreferredSize(new Dimension(width,height));
+			add(game_board, BorderLayout.PAGE_START);
+			revalidate();
+			repaint();
+			pack(); 
+		}
+	}
+
 }

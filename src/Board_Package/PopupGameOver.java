@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 
 import Menu_Package.Menu;
 
-public class PopupGameOver implements  ActionListener {
+public class PopupGameOver extends Popup implements  ActionListener {
 	private Menu menu;
 	// popup 
 	Popup po; 
