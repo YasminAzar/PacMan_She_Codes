@@ -16,7 +16,7 @@ import javax.swing.border.EmptyBorder;
 import Board_Package.Board;
 
 public class Menu extends JPanel implements  ActionListener  {
-	static Board _board;
+	//static Board _board;
 	// EB declare jbutton here so we can reference from main
 	public JButton newGame;
 	public JButton loadGame;

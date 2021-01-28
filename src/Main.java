@@ -13,7 +13,7 @@ import Menu_Package.Menu;
 
 public class Main extends JFrame implements ActionListener {
 
-	private static Main gameMain;
+	//private static Main gameMain;
 	private Menu menu;
 
 	public static void main(String[] args) {
