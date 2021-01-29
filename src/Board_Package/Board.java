@@ -984,7 +984,7 @@ public class Board extends JPanel implements ActionListener{
 			return temp;
 		}
 		else {
-			int r = (int) Math.random()*temp.length();
+			int r = (int)(Math.random()*temp.length());
 			return String.valueOf(temp.charAt(r));
 		}
 	}
