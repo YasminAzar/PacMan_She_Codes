@@ -657,7 +657,7 @@ public class Board extends JPanel implements ActionListener{
 		if(thereIsBalls == false){
 			PopupGameOver popup_game_over = new PopupGameOver();
 			menu = new Menu();
-			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
+			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.pwin, boardWidth/3, boardHeight/2); 
 			popup_game_over.po.show();
 			
 		}
@@ -685,15 +685,12 @@ public class Board extends JPanel implements ActionListener{
 				thirdLife.setStatus(NOT_EXIST);
 				PopupGameOver popup_game_over = new PopupGameOver();
 				menu = new Menu();
-				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
+				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/2); 
 				popup_game_over.po.show();
 				break;
 			}
 		}
 	}
-
-
-
 
 /**
  * This function checks if the Pacman has reached the power ball
