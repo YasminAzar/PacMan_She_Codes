@@ -23,8 +23,8 @@ public final class GameConstants implements Cloneable{
 
 	public static final int POINTS_FOR_FIRST_GHOST = 200;
 	public static final int POINTS_FOR_SECOND_GHOST = 400;
-	public static final int POINTS_FOR_THIRD_GHOST = 200;
-	public static final int POINTS_FOR_FOURTH_GHOST = 400;
+	public static final int POINTS_FOR_THIRD_GHOST = 600;
+	public static final int POINTS_FOR_FOURTH_GHOST = 800;
 
 	public static final String GHOST_1_STRING = "gh1";
 	public static final String GHOST_2_STRING = "gh2";

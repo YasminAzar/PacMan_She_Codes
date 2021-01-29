@@ -12,14 +12,14 @@ public class Pacman extends GameCharacter{
 	private Image pacmanImage;
 	private String nameOnMap;
 	private int lifeLeft;
-	private boolean isImortal;
+	private boolean isImmortal;
 
-	public boolean isImortal() {
-		return isImortal;
+	public boolean isImmortal() {
+		return isImmortal;
 	}
 
 	public void setImortal(boolean isImortal) {
-		this.isImortal = isImortal;
+		this.isImmortal = isImortal;
 	}
 
 	public String getNameOnMap() {
@@ -44,7 +44,7 @@ public class Pacman extends GameCharacter{
 		this.setLocation_y(location_y);;
 		this.setDirection(direction);
 		this.setLifeLeft(3);
-		this.isImortal = false;
+		this.isImmortal = false;
 	}
 	public int getLifeLeft() {
 		return lifeLeft;
@@ -61,8 +61,8 @@ public class Pacman extends GameCharacter{
 	public void setPacmanImage(Image image) {
 		this.pacmanImage = image;
 	}
-	public void changeToImortal() {
-		this.isImortal = true;
+	public void changeToImmortal() {
+		this.isImmortal = true;
 		final int second = 15000;
 			ActionListener task = new ActionListener() {
 				@Override

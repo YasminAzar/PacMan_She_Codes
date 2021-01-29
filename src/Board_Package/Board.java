@@ -43,13 +43,13 @@ public class Board extends JPanel implements ActionListener{
 	private int blockHeight;
 	private int pbIndex1, pbIndex2, pbIndex3, pbIndex4, pbIndex5,pbIndex6;
 	private int boardWidth, boardHeight;
+	private int ghostCounter = 0;
 	Ghosts redGhost, blueGhost, pinkGhost, orangeGhost;
 	Pacman pacman;
 	Power_Ball powerBall_1, powerBall_2, powerBall_3, powerBall_4;
 	Lives firstLife, secondLife, thirdLife;
 	GameScore gameScore;
 	String [][]map;
-	//= Game_Constants_Package.GameConstants.BOARD_OPTION_1.clone() ;
 	final String UP = "U";
 	final String DOWN = "D";
 	final String LEFT = "L";
@@ -75,7 +75,7 @@ public class Board extends JPanel implements ActionListener{
 	int [] pinkGhostLoc = new int[2];
 	int [] orangeGhostLoc = new int[2];
 	int [] pacmanLoc = new int[2];
-	private Menu menu;
+	//private Menu menu;
 
 	public Board(int board_number) {
 		if (board_number == 1) {	
@@ -172,7 +172,7 @@ public class Board extends JPanel implements ActionListener{
 		Graphics2D g2 = (Graphics2D) g;
 		// this is the transform I was using when I found the bug.
 		createBoard(g2);
-		
+
 		updateGhost(redGhost);
 		drawGhost(g2, redGhost);
 		updateGhost(blueGhost);
@@ -189,7 +189,7 @@ public class Board extends JPanel implements ActionListener{
 		drawLives(g2, firstLife);
 		drawLives(g2, secondLife);
 		drawLives(g2, thirdLife);
-		
+
 	}
 
 	/**
@@ -536,6 +536,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setPacmanImage(pacman_image_up);
 						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
+						isPacmanEatGhost(pacman.getGrid_x(), pacman.getGrid_y());
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
 							updateScore(SMALL_BALL);
@@ -555,6 +556,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setPacmanImage(pacman_image_down);
 						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
+						isPacmanEatGhost(pacman.getGrid_x(), pacman.getGrid_y());
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
 							updateScore(SMALL_BALL);
@@ -574,6 +576,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setPacmanImage(pacman_image_left);
 						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
+						isPacmanEatGhost(pacman.getGrid_x(), pacman.getGrid_y());
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
 							updateScore(SMALL_BALL);
@@ -593,6 +596,7 @@ public class Board extends JPanel implements ActionListener{
 						pacman.setPacmanImage(pacman_image_right);
 						isThePacmanEatAllBalls();
 						checkPowerBallTimer();
+						isPacmanEatGhost(pacman.getGrid_x(), pacman.getGrid_y());
 						isItGhostLocation(pacman.getGrid_x(), pacman.getGrid_y());
 						if(isItSmallBallLocation(pacman.getGrid_x(), pacman.getGrid_y())) {
 							updateScore(SMALL_BALL);
@@ -638,14 +642,44 @@ public class Board extends JPanel implements ActionListener{
 		}
 		else if(ballType == POWER_BALL) {
 			gameScore.setScore(gameScore.getScore() + power_ball_points);
-			pacman.changeToImortal();
+			pacman.changeToImmortal();
 		}
 		System.out.println("Score: " + gameScore.getScore());
 	}
 
-	//This function check if there is not more balls on the board
+	/**
+	 * This function checks if Pacman is immortal and if he ate ghost, if so,
+	 * he gets a score according to the amount of ghosts he ate in the allowed time
+	 * @param x
+	 * @param y
+	 */
+	private void isPacmanEatGhost(int x, int y) {
+		if(pacman.isImmortal() == false) ghostCounter = 0;
+		if(pacman.isImmortal() == true && (map[x][y].equals("rg") || map[x][y].equals("bg") || 
+				map[x][y].equals("pg") || map[x][y].equals("og"))){
+			if(ghostCounter == 0) {
+				gameScore.setScore(gameScore.getScore() + GameConstants.POINTS_FOR_FIRST_GHOST);
+				ghostCounter++;
+			}
+			else if(ghostCounter == 1) {
+				gameScore.setScore(gameScore.getScore() + GameConstants.POINTS_FOR_SECOND_GHOST);
+				ghostCounter++;
+			}
+			else if(ghostCounter == 2) {
+				gameScore.setScore(gameScore.getScore() + GameConstants.POINTS_FOR_THIRD_GHOST);
+				ghostCounter++;
+			}
+			else if(ghostCounter == 3) {
+				gameScore.setScore(gameScore.getScore() + GameConstants.POINTS_FOR_FOURTH_GHOST);
+				ghostCounter++;
+			}
+		}
+	}
+	
+	/**
+	 * This function check if there is not more small balls on the board
+	 */
 	private void isThePacmanEatAllBalls() {
-		//boolean isTheBoardCealn = false;
 		boolean thereIsBalls = false;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map.length; j++) {
@@ -656,19 +690,19 @@ public class Board extends JPanel implements ActionListener{
 		}
 		if(thereIsBalls == false){
 			PopupGameOver popup_game_over = new PopupGameOver();
-			menu = new Menu();
+			//menu = new Menu();
 			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.pwin, boardWidth/3, boardHeight/2); 
 			popup_game_over.po.show();
-			
 		}
-		/*if(ballsCounter == map.length*map.length) {
-			PopupGameOver popup_game_over = new PopupGameOver();
-			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.pwin, boardWidth/3, boardHeight/3); 
-			popup_game_over.po.show();
-		}*/
 	}
+	
+	/**
+	 * This function checks if Pacman got on the ghost while he was not immortal
+	 * @param x
+	 * @param y
+	 */
 	private void isItGhostLocation(int x, int y) {
-		if(pacman.isImortal() == true) return;
+		if(pacman.isImmortal() == true) return;
 		if(map[x][y].equals("rg") || map[x][y].equals("bg") || 
 				map[x][y].equals("pg") || map[x][y].equals("og")) {
 			System.out.println("The Ghost eat the pacman");
@@ -684,7 +718,7 @@ public class Board extends JPanel implements ActionListener{
 			case 0:
 				thirdLife.setStatus(NOT_EXIST);
 				PopupGameOver popup_game_over = new PopupGameOver();
-				menu = new Menu();
+				//menu = new Menu();
 				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/2); 
 				popup_game_over.po.show();
 				break;
@@ -692,290 +726,271 @@ public class Board extends JPanel implements ActionListener{
 		}
 	}
 
-/**
- * This function checks if the Pacman has reached the power ball
- * @param x
- * @param y
- * @return True - if the Pacman got to the power ball
- */
-private boolean isItPbLocatin(int x, int y) {
-	if(map[x][y] == "pb1") { 
-		powerBall_1.setStatus(NOT_EXIST);
-		return true;
+	/**
+	 * This function checks if the Pacman has reached the power ball
+	 * @param x
+	 * @param y
+	 * @return True - if the Pacman got to the power ball
+	 */
+	private boolean isItPbLocatin(int x, int y) {
+		if(map[x][y] == "pb1") { 
+			powerBall_1.setStatus(NOT_EXIST);
+			return true;
+		}
+		if(map[x][y] == "pb2") {
+			powerBall_2.setStatus(NOT_EXIST);
+			return true;
+		}
+		if(map[x][y] == "pb3") {
+			powerBall_3.setStatus(NOT_EXIST);
+			return true;
+		}
+		if(map[x][y] == "pb4") {
+			powerBall_4.setStatus(NOT_EXIST);
+			return true;
+		}
+		return false;
 	}
-	if(map[x][y] == "pb2") {
-		powerBall_2.setStatus(NOT_EXIST);
-		return true;
-	}
-	if(map[x][y] == "pb3") {
-		powerBall_3.setStatus(NOT_EXIST);
-		return true;
-	}
-	if(map[x][y] == "pb4") {
-		powerBall_4.setStatus(NOT_EXIST);
-		return true;
-	}
-	return false;
-}
 
-/**
- * This function checks if the Pacman has reached the small ball
- * @param x
- * @param y
- * @return True - if the Pacman got to the small ball
- */
-private boolean isItSmallBallLocation(int x, int y) {
-	if(map[x][y].equals(WHITE)) { 
-		return true;
+	/**
+	 * This function checks if the Pacman has reached the small ball
+	 * @param x
+	 * @param y
+	 * @return True - if the Pacman got to the small ball
+	 */
+	private boolean isItSmallBallLocation(int x, int y) {
+		if(map[x][y].equals(WHITE)) { 
+			return true;
+		}
+		return false;
 	}
-	return false;
-}
 
-private void scorePanel() {
-	GridBagConstraints constraints = new GridBagConstraints( );
-	gameScore = new GameScore();
-	constraints.ipadx = 25;  // add padding
-	constraints.ipady = 25;
-	//constraints.weighty = .5;
-	constraints.gridheight = 2;
-	constraints.weighty = 1.0;
-	constraints.anchor = GridBagConstraints.PAGE_END;
-	this.add(gameScore, constraints);//e, BorderLayout.PAGE_END
-	this.invalidate();
-	this.repaint();
-}
+	private void scorePanel() {
+		GridBagConstraints constraints = new GridBagConstraints( );
+		gameScore = new GameScore();
+		constraints.ipadx = 25;  // add padding
+		constraints.ipady = 25;
+		//constraints.weighty = .5;
+		constraints.gridheight = 2;
+		constraints.weighty = 1.0;
+		constraints.anchor = GridBagConstraints.PAGE_END;
+		this.add(gameScore, constraints);//e, BorderLayout.PAGE_END
+		this.invalidate();
+		this.repaint();
+	}
 
-/**
- * This function checks whether the pacman has reached the power ball,
- * and as soon as he has eaten it, a timer of 15 seconds starts, until it reaches to 0
- */
-private void checkPowerBallTimer() {
-	final int second = 1000;
-	if(isItPbLocatin(pacman.getGrid_x(), pacman.getGrid_y())) {
-		System.out.println("Eat PB");
-		timerCounter = GameConstants.GHOST_IN_ACTIVE_TIME;
-		ActionListener task = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				if(timerCounter < 0) {
-					Timer t = (Timer)evt.getSource();
-					t.stop();
+	/**
+	 * This function checks whether the pacman has reached the power ball,
+	 * and as soon as he has eaten it, a timer of 15 seconds starts, until it reaches to 0
+	 */
+	private void checkPowerBallTimer() {
+		final int second = 1000;
+		if(isItPbLocatin(pacman.getGrid_x(), pacman.getGrid_y())) {
+			System.out.println("Eat PB");
+			timerCounter = GameConstants.GHOST_IN_ACTIVE_TIME;
+			ActionListener task = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+					if(timerCounter < 0) {
+						Timer t = (Timer)evt.getSource();
+						t.stop();
+					}
+					else {
+						gameScore.setPowerBallCounter(timerCounter);
+						timerCounter -= 1;
+					}		
 				}
-				else {
-					gameScore.setPowerBallCounter(timerCounter);
-					timerCounter -= 1;
-				}		
+			};
+			Timer timer = new Timer(second, task);
+			timer.start();
+			updateScore(POWER_BALL);		
+		}			
+	}
+
+	/**
+	 * This function checks whether pacman is in the given location
+	 * @param x
+	 * @param y
+	 * @return true - if pacman is in this location
+	 */
+	private boolean isItPacmanLocation(int x, int y) {
+		if(map[x][y].equals("pac")) { 
+			pacman.setStatus(NOT_EXIST);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * This function checks if the some ghost has eat the pacman 
+	 * and how many times it has already happened
+	 * if pacman is eaten 3 times, the game is over
+	 * @param currentGhost
+	 */
+	private void isGhostEatPacman(Ghosts currentGhost){
+		if(pacman.isImmortal() == true) return;
+		if(isItPacmanLocation(currentGhost.getGrid_x(), currentGhost.getGrid_y()) ){
+			System.out.println("The Ghost eat the pacman");
+			pacman.setLifeLeft(pacman.getLifeLeft()-1);
+			gameScore.updateLifeMessage("Your lost a life " + pacman.getLifeLeft() + " left");
+			switch(pacman.getLifeLeft()) {
+			case 2:
+				firstLife.setStatus(NOT_EXIST);
+				break;
+			case 1:
+				secondLife.setStatus(NOT_EXIST);
+				break;
+			case 0:
+				thirdLife.setStatus(NOT_EXIST);
+				PopupGameOver popup_game_over = new PopupGameOver();
+				//menu = new Menu();
+				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
+				popup_game_over.po.show();
+				break;
 			}
-		};
-		Timer timer = new Timer(second, task);
-		timer.start();
-		updateScore(POWER_BALL);		
-	}			
-}
-
-/**
- * This function checks whether pacman is in the given location
- * @param x
- * @param y
- * @return true - if pacman is in this location
- */
-private boolean isItPacmanLocation(int x, int y) {
-	if(map[x][y].equals("pac")) { 
-		pacman.setStatus(NOT_EXIST);
-		return true;
-	}
-	return false;
-}
-
-/**
- * This function checks if the some ghost has eat the pacman 
- * and how many times it has already happened
- * if pacman is eaten 3 times, the game is over
- * @param currentGhost
- */
-private void isGhostEatPacman(Ghosts currentGhost){
-	if(pacman.isImortal() == true) return;
-	if(isItPacmanLocation(currentGhost.getGrid_x(), currentGhost.getGrid_y()) ){
-		System.out.println("The Ghost eat the pacman");
-		pacman.setLifeLeft(pacman.getLifeLeft()-1);
-		gameScore.updateLifeMessage("Your lost a life " + pacman.getLifeLeft() + " left");
-		switch(pacman.getLifeLeft()) {
-		case 2:
-			firstLife.setStatus(NOT_EXIST);
-			break;
-		case 1:
-			secondLife.setStatus(NOT_EXIST);
-			break;
-		case 0:
-			thirdLife.setStatus(NOT_EXIST);
-			PopupGameOver popup_game_over = new PopupGameOver();
-			menu = new Menu();
-			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
-			popup_game_over.po.show();
-			//add(popup_game_over.menu);
-			//this.pack();
-			//this.setVisible(false);
-			//this.remove(this);
-			//this.revalidate();
-			//this.repaint();
-			//menu.createPanel(gbc);
-			//this.menu.setVisible(true);
-			//menu.newGame.addActionListener(this);
-			//menu.loadGame.addActionListener(this);
-			//menu.leaderBoard.addActionListener(this);
-			//this.revalidate();
-			//this.repaint();
-			//this.add(menu);
-			//this.revalidate();
-			//this.repaint();
-			//this.pack();
-
-			//popup_game_over.po.hide();
-			break;
 		}
 	}
-}
 
-/**
- * This function updates the map
- * @param gridX
- * @param gridY
- * @param nameOnMap
- */
-private void mapUpdater(int gridX, int gridY, String nameOnMap) {
-	map[gridX][gridY] = nameOnMap;
-	printMap();
-}
+	/**
+	 * This function updates the map
+	 * @param gridX
+	 * @param gridY
+	 * @param nameOnMap
+	 */
+	private void mapUpdater(int gridX, int gridY, String nameOnMap) {
+		map[gridX][gridY] = nameOnMap;
+		printMap();
+	}
 
-/**
- * This function updates the position of the ghosts on the game board
- * @param current
- */
-private void updateGhost(Ghosts current) {
-	int number_of_steps = blockWidth;
-	System.out.println("moveCounter of " + current.getNameOnMap() + ": " + current.getMoveCounter());
+	/**
+	 * This function updates the position of the ghosts on the game board
+	 * @param current
+	 */
+	private void updateGhost(Ghosts current) {
+		int number_of_steps = blockWidth;
+		System.out.println("moveCounter of " + current.getNameOnMap() + ": " + current.getMoveCounter());
 
-	if(current.getMoveCounter() < number_of_steps) {
-		current.setMoveCounter(current.getMoveCounter()+1);
-		//per direction update location
-		if(current.getDirection().equals(UP) ) {
-			current.setLocation_x(current.getLocation_x()-1);
-		}
-		else if(current.getDirection().equals(DOWN)) {
-			current.setLocation_x(current.getLocation_x()+1);
-		}
-		else if(current.getDirection().equals(RIGHT)) {
-			current.setLocation_y(current.getLocation_y()+1);
-		}
-		else if(current.getDirection().equals(LEFT)) {
-			current.setLocation_y(current.getLocation_y()-1);
-		}
-		//checking to changing map location and grid
-		if(current.getMoveCounter() == (int)(number_of_steps/2)) {
-			//save white balls and power balls if they was exist
-			int x_prev = current.getGrid_x();
-			int y_prev = current.getGrid_y();
-			String last_value_for_map = current.getStandOn();
-			if(current.getDirection().equals(UP) && !map[current.getGrid_x()-1][current.getGrid_y()].equals(BLUE) ) {
-				current.setGrid_x(current.getGrid_x()-1);	
+		if(current.getMoveCounter() < number_of_steps) {
+			current.setMoveCounter(current.getMoveCounter()+1);
+			//per direction update location
+			if(current.getDirection().equals(UP) ) {
+				current.setLocation_x(current.getLocation_x()-1);
 			}
-			else if(current.getDirection().equals(DOWN) && !map[current.getGrid_x()+1][current.getGrid_y()].equals(BLUE)) {
-				current.setGrid_x(current.getGrid_x()+1);
+			else if(current.getDirection().equals(DOWN)) {
+				current.setLocation_x(current.getLocation_x()+1);
 			}
-			else if(current.getDirection().equals(RIGHT) && !map[current.getGrid_x()][current.getGrid_y()+1].equals(BLUE)) {
-				current.setGrid_y(current.getGrid_y()+1);
+			else if(current.getDirection().equals(RIGHT)) {
+				current.setLocation_y(current.getLocation_y()+1);
 			}
-			else if(current.getDirection().equals(LEFT) && !map[current.getGrid_x()][current.getGrid_y()-1].equals(BLUE)) {
-				current.setGrid_y(current.getGrid_y()-1);
+			else if(current.getDirection().equals(LEFT)) {
+				current.setLocation_y(current.getLocation_y()-1);
 			}
-			current.setStandOn(map[current.getGrid_x()][current.getGrid_y()]);
-			isGhostEatPacman(current);
-			mapUpdater(x_prev, y_prev, last_value_for_map);
-			mapUpdater(current.getGrid_x(), current.getGrid_y(), current.getNameOnMap());
+			//checking to changing map location and grid
+			if(current.getMoveCounter() == (int)(number_of_steps/2)) {
+				//save white balls and power balls if they was exist
+				int x_prev = current.getGrid_x();
+				int y_prev = current.getGrid_y();
+				String last_value_for_map = current.getStandOn();
+				if(current.getDirection().equals(UP) && !map[current.getGrid_x()-1][current.getGrid_y()].equals(BLUE) ) {
+					current.setGrid_x(current.getGrid_x()-1);	
+				}
+				else if(current.getDirection().equals(DOWN) && !map[current.getGrid_x()+1][current.getGrid_y()].equals(BLUE)) {
+					current.setGrid_x(current.getGrid_x()+1);
+				}
+				else if(current.getDirection().equals(RIGHT) && !map[current.getGrid_x()][current.getGrid_y()+1].equals(BLUE)) {
+					current.setGrid_y(current.getGrid_y()+1);
+				}
+				else if(current.getDirection().equals(LEFT) && !map[current.getGrid_x()][current.getGrid_y()-1].equals(BLUE)) {
+					current.setGrid_y(current.getGrid_y()-1);
+				}
+				current.setStandOn(map[current.getGrid_x()][current.getGrid_y()]);
+				isGhostEatPacman(current);
+				mapUpdater(x_prev, y_prev, last_value_for_map);
+				mapUpdater(current.getGrid_x(), current.getGrid_y(), current.getNameOnMap());
+			}
+		}
+		else if(current.getMoveCounter() >= number_of_steps) {
+			//make sure we are in the right position
+			int x = current.getGrid_x()*blockHeight+ghost_offset;
+			int y = current.getGrid_y()*blockWidth+ghost_offset+boardOffset;
+			current.setLocation_x(x);
+			current.setLocation_y(y);
+			current.setMoveCounter(0);
+			current.setDirection(getGhostDirection(current.getGrid_x(),current.getGrid_y(), current.getDirection()));
+			current.setMoveCounter(current.getMoveCounter()+1);
+		}
+		sanityCheck(current.getLocation_x(), current.getLocation_y());
+	}
+
+	/**
+	 * This function updates the direction of the ghosts
+	 * @param x
+	 * @param y
+	 * @param prev_direction
+	 * @return the updated direction
+	 */
+	private String getGhostDirection(int x, int y, String prev_direction) {
+		direction = "";
+		int index_to_remove;
+		char char_to_remove;
+		if(x-1 >= 0 && !map[x-1][y].equals(BLUE)) {
+			direction = direction.concat(UP);
+		}
+		if(x+1 < map.length && !map[x+1][y].equals(BLUE)) {
+			direction = direction.concat(DOWN);
+		}
+		if(y-1 >= 0 && !map[x][y-1].equals(BLUE)) {
+			direction = direction.concat(LEFT);
+		}
+		if(y+1 < map.length && !map[x][y+1].equals(BLUE)) {
+			direction = direction.concat(RIGHT);
+		}
+		//check if I need to remove the direction I came from
+		if(prev_direction.equals(LEFT)) {
+			index_to_remove = direction.indexOf(RIGHT);
+			char_to_remove = direction.charAt(index_to_remove);
+			direction = direction.replace(char_to_remove, ' ');
+			System.out.println("x=" + x +" y=" + y + " = " + direction);	
+		}
+		if(prev_direction.equals(RIGHT)) {
+			index_to_remove = direction.indexOf(LEFT);
+			char_to_remove = direction.charAt(index_to_remove);
+			direction = direction.replace(char_to_remove, ' ');
+			System.out.println("x=" + x +" y=" + y + " = " + direction);
+		}
+		if(prev_direction.equals(UP)) {
+			index_to_remove = direction.indexOf(DOWN);
+			char_to_remove = direction.charAt(index_to_remove);
+			direction = direction.replace(char_to_remove, ' ');
+			System.out.println("x=" + x +" y=" + y + " = " + direction);
+		}
+		if(prev_direction.equals(DOWN)) {
+			index_to_remove = direction.indexOf(UP);
+			char_to_remove = direction.charAt(index_to_remove);
+			direction = direction.replace(char_to_remove, ' ');
+			System.out.println("x=" + x +" y=" + y + " = " + direction);
+		}
+		if(direction.length() == 0) {
+			System.out.println("no direction");
+		}
+		String temp = "";
+		for (int i = 0; i < direction.length(); i++) {
+			if(direction.charAt(i) != ' ') {
+				temp = temp.concat(String.valueOf(direction.charAt(i)));
+			}
+		}
+		//TODO check if there is ghost at this direction near to it- if there is- go to another direction
+		if(temp.length() == 1) {
+			return temp;
+		}
+		else {
+			int r = (int) Math.random()*temp.length();
+			return String.valueOf(temp.charAt(r));
 		}
 	}
-	else if(current.getMoveCounter() >= number_of_steps) {
-		//make sure we are in the right position
-		int x = current.getGrid_x()*blockHeight+ghost_offset;
-		int y = current.getGrid_y()*blockWidth+ghost_offset+boardOffset;
-		current.setLocation_x(x);
-		current.setLocation_y(y);
-		current.setMoveCounter(0);
-		current.setDirection(getGhostDirection(current.getGrid_x(),current.getGrid_y(), current.getDirection()));
-		current.setMoveCounter(current.getMoveCounter()+1);
-	}
-	sanityCheck(current.getLocation_x(), current.getLocation_y());
-}
 
-/**
- * This function updates the direction of the ghosts
- * @param x
- * @param y
- * @param prev_direction
- * @return the updated direction
- */
-private String getGhostDirection(int x, int y, String prev_direction) {
-	direction = "";
-	int index_to_remove;
-	char char_to_remove;
-	if(x-1 >= 0 && !map[x-1][y].equals(BLUE)) {
-		direction = direction.concat(UP);
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
 	}
-	if(x+1 < map.length && !map[x+1][y].equals(BLUE)) {
-		direction = direction.concat(DOWN);
-	}
-	if(y-1 >= 0 && !map[x][y-1].equals(BLUE)) {
-		direction = direction.concat(LEFT);
-	}
-	if(y+1 < map.length && !map[x][y+1].equals(BLUE)) {
-		direction = direction.concat(RIGHT);
-	}
-	//check if I need to remove the direction I came from
-	if(prev_direction.equals(LEFT)) {
-		index_to_remove = direction.indexOf(RIGHT);
-		char_to_remove = direction.charAt(index_to_remove);
-		direction = direction.replace(char_to_remove, ' ');
-		System.out.println("x=" + x +" y=" + y + " = " + direction);	
-	}
-	if(prev_direction.equals(RIGHT)) {
-		index_to_remove = direction.indexOf(LEFT);
-		char_to_remove = direction.charAt(index_to_remove);
-		direction = direction.replace(char_to_remove, ' ');
-		System.out.println("x=" + x +" y=" + y + " = " + direction);
-	}
-	if(prev_direction.equals(UP)) {
-		index_to_remove = direction.indexOf(DOWN);
-		char_to_remove = direction.charAt(index_to_remove);
-		direction = direction.replace(char_to_remove, ' ');
-		System.out.println("x=" + x +" y=" + y + " = " + direction);
-	}
-	if(prev_direction.equals(DOWN)) {
-		index_to_remove = direction.indexOf(UP);
-		char_to_remove = direction.charAt(index_to_remove);
-		direction = direction.replace(char_to_remove, ' ');
-		System.out.println("x=" + x +" y=" + y + " = " + direction);
-	}
-	if(direction.length() == 0) {
-		System.out.println("no direction");
-	}
-	String temp = "";
-	for (int i = 0; i < direction.length(); i++) {
-		if(direction.charAt(i) != ' ') {
-			temp = temp.concat(String.valueOf(direction.charAt(i)));
-		}
-	}
-	//TODO check if there is ghost at this direction near to it- if there is- go to another direction
-	if(temp.length() == 1) {
-		return temp;
-	}
-	else {
-		int r = (int) Math.random()*temp.length();
-		return String.valueOf(temp.charAt(r));
-	}
-}
-
-@Override
-public void actionPerformed(ActionEvent arg0) {
-	// TODO Auto-generated method stub
-}
 }
