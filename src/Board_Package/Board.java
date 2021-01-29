@@ -649,7 +649,7 @@ public class Board extends JPanel implements ActionListener{
 		boolean thereIsBalls = false;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map.length; j++) {
-				if(map[i][j].equals(SMALL_BALL)) {
+				if(map[i][j].equals(WHITE)) {
 					thereIsBalls = true;
 				}	
 			}	
