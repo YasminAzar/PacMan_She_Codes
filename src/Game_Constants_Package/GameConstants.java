@@ -1,4 +1,4 @@
-package Game_Constants_Package;
+package game_constants_package;
 
 public final class GameConstants implements Cloneable{
 

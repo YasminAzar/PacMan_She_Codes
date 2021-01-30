@@ -1,4 +1,4 @@
-package Menu_Package;
+package menu_package;
 
 import java.awt.Color;
 import java.awt.Graphics;

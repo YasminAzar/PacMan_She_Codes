@@ -1,4 +1,4 @@
-package Score_Package;
+package score_package;
 
 import java.awt.Color;
 import java.awt.Dimension;

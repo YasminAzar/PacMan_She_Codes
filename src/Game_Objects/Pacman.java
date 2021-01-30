@@ -1,4 +1,4 @@
-package Game_Objects;
+package game_objects;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;

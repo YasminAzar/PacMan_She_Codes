@@ -1,4 +1,4 @@
-package Menu_Package;
+package menu_package;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Board_Package.Board;
+import board_package.Board;
 
 public class Menu extends JPanel implements  ActionListener  {
 	//static Board _board;

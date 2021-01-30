@@ -1,10 +1,10 @@
-package Game_Objects;
+package game_objects;
 
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import Log_Package.PacmanLog;
+import log_package.PacmanLog;
 
 public class GameCharacter {
 	ImageIcon gameCharacterIcon;

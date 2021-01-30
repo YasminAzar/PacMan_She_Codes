@@ -1,4 +1,4 @@
-package Board_Package;
+package board_package;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +12,7 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import javax.swing.UIManager;
 
-import Menu_Package.Menu;
+import menu_package.Menu;
 
 public class PopupGameOver extends Popup implements  ActionListener {
 	private Menu menu;

@@ -6,14 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import Board_Package.Board;
-import Game_Constants_Package.GameConstants;
-import Menu_Package.LoadGameMenu;
-import Menu_Package.Menu;
+import board_package.Board;
+import game_constants_package.GameConstants;
+import menu_package.LoadGameMenu;
+import menu_package.Menu;
 
 public class Main extends JFrame implements ActionListener {
 
-	//private static Main gameMain;
 	private Menu menu;
 	private LoadGameMenu loadGameMenu;
 
@@ -53,6 +52,16 @@ public class Main extends JFrame implements ActionListener {
 		this.add(menu);
 		this.pack();
 	}
+	
+	/*private void initLoadGameMenu() {
+		loadGameMenu = new LoadGameMenu();
+		loadGameMenu.firstGameOption.addActionListener(new LoadGameActionListener());
+		loadGameMenu.secondGameOption.addActionListener(new LoadGameActionListener());
+		loadGameMenu.thirdGameOption.addActionListener(new LoadGameActionListener());
+		this.add(loadGameMenu);
+		this.pack();
+	}*/
+	
 
 	// EB remove override
 	/**
@@ -82,10 +91,13 @@ public class Main extends JFrame implements ActionListener {
 			loadGameMenu.firstGameOption.addActionListener(new LoadGameActionListener());
 			loadGameMenu.secondGameOption.addActionListener(new LoadGameActionListener());
 			loadGameMenu.thirdGameOption.addActionListener(new LoadGameActionListener());
-			this.add(loadGameMenu/*, BorderLayout.PAGE_START*/);
+			
+			//initLoadGameMenu();
+			this.add(loadGameMenu);
 			this.revalidate();
 			this.repaint();
-			this.pack();	
+			this.pack();
+			
 		}
 
 		//if we press the "leaderBoard" button, a new window 

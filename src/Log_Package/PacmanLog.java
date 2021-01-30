@@ -1,4 +1,4 @@
-package Log_Package;
+package log_package;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

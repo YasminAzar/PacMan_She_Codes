@@ -1,4 +1,4 @@
-package Board_Package;
+package board_package;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,17 +11,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import Game_Constants_Package.GameConstants;
-import Game_Objects.Ghosts;
-import Game_Objects.Lives;
-import Game_Objects.Pacman;
-import Game_Objects.Power_Ball;
-import Log_Package.PacmanLog;
-import Menu_Package.Menu;
-import Score_Package.GameScore;
+
+import game_constants_package.GameConstants;
+import game_objects.Ghosts;
+import game_objects.Lives;
+import game_objects.Pacman;
+import game_objects.Power_Ball;
+import log_package.PacmanLog;
+import score_package.GameScore;
 
 class Positions {
 	int x;
@@ -38,11 +39,8 @@ class Positions {
 
 public class Board extends JPanel implements ActionListener{
 
-	private int boardOffset;
-	private int blockWidth;
-	private int blockHeight;
+	private int boardOffset, blockWidth, blockHeight, boardWidth, boardHeight;
 	private int pbIndex1, pbIndex2, pbIndex3, pbIndex4, pbIndex5,pbIndex6;
-	private int boardWidth, boardHeight;
 	private int ghostCounter = 0;
 	Ghosts redGhost, blueGhost, pinkGhost, orangeGhost;
 	Pacman pacman;
@@ -75,17 +73,16 @@ public class Board extends JPanel implements ActionListener{
 	int [] pinkGhostLoc = new int[2];
 	int [] orangeGhostLoc = new int[2];
 	int [] pacmanLoc = new int[2];
-	//private Menu menu;
 
 	public Board(int board_number) {
 		if (board_number == 1) {	
-			map = Game_Constants_Package.GameConstants.BOARD_OPTION_1.clone() ;	
+			map = game_constants_package.GameConstants.BOARD_OPTION_1.clone() ;	
 		} 
 		else if (board_number == 2) {	
-			map = Game_Constants_Package.GameConstants.BOARD_OPTION_2.clone() ;	
+			map = game_constants_package.GameConstants.BOARD_OPTION_2.clone() ;	
 		} 
 		else {	
-			map = Game_Constants_Package.GameConstants.BOARD_OPTION_3.clone() ;	
+			map = game_constants_package.GameConstants.BOARD_OPTION_3.clone() ;	
 		}
 		boardWidth = (int)(GameConstants.SCREEN_WIDTH * GameConstants.BOARD_PERCENT);
 		boardHeight = (int)(GameConstants.SCREEN_HEIGHT * GameConstants.BOARD_PERCENT);
@@ -111,7 +108,7 @@ public class Board extends JPanel implements ActionListener{
 	 * This function places the power balls on the map
 	 */
 	private void createPowerBalls() {
-		pbLocation = findPBLocation(map);
+		pbLocation = findPBLocation();
 		pbIndex1 = pbLocation[0]; 
 		pbIndex2 = pbLocation[1];
 		pbIndex3 = pbLocation[2];
@@ -131,7 +128,6 @@ public class Board extends JPanel implements ActionListener{
 		g2d.fillRect(0, 0, w, h);
 		PacmanLog.log("creatBoard","map.length "+map.length+" map[0].length "+map[0].length);
 		int index = 0;
-		// EB back to 15
 		int size = 15;
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -170,9 +166,7 @@ public class Board extends JPanel implements ActionListener{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		// this is the transform I was using when I found the bug.
 		createBoard(g2);
-
 		updateGhost(redGhost);
 		drawGhost(g2, redGhost);
 		updateGhost(blueGhost);
@@ -189,7 +183,6 @@ public class Board extends JPanel implements ActionListener{
 		drawLives(g2, firstLife);
 		drawLives(g2, secondLife);
 		drawLives(g2, thirdLife);
-
 	}
 
 	/**
@@ -258,7 +251,6 @@ public class Board extends JPanel implements ActionListener{
 				}
 			}
 			else if(rows[i] == 9) {
-				// TODO j start at 1
 				for (j = 8; j < map.length; j++) {
 					if(map[rows[i]][j].equals(WHITE) && map[rows[i]][j-1].equals(WHITE)) {
 						//I get left
@@ -285,21 +277,21 @@ public class Board extends JPanel implements ActionListener{
 	 * @param gameBoard
 	 * @return indexPB - index of the power ball on the game board
 	 */
-	private int[] findPBLocation(String[][] gameBoard) {
+	private int[] findPBLocation() {
 		int count = 0;
 		ArrayList<Integer> row_with_2_empty_blocks = new ArrayList<Integer>();
-		int min_i = gameBoard.length-1;
+		int min_i = map.length-1;
 		int max_i = 0;
-		int min_j_first_row = gameBoard.length-1;
+		int min_j_first_row = map.length-1;
 		int max_j_first_row = 0;
-		int min_j_last_row = gameBoard.length-1;
+		int min_j_last_row = map.length-1;
 		int max_j_last_row = 0;
 		int [] index_pb = new int[6];
 		//Keeps the rows with at least 2 empty spaces in the arrayList 
-		for (int i = 0; i < gameBoard.length; i++) {
+		for (int i = 0; i < map.length; i++) {
 			count = 0;
-			for (int j = 0; j < gameBoard.length; j++) {
-				if(gameBoard[i][j] == "0") {
+			for (int j = 0; j < map.length; j++) {
+				if(map[i][j] == "0") {
 					count++;
 					if(count > 1 && !row_with_2_empty_blocks.contains(i)) {
 						row_with_2_empty_blocks.add(i);
@@ -307,10 +299,10 @@ public class Board extends JPanel implements ActionListener{
 				}
 			}
 		}
-		for (int i = 0; i < gameBoard.length; i++) {
-			for (int j = 0; j < gameBoard.length; j++) {
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map.length; j++) {
 				//if we are in a empty block and in a row with at least 2 empty blocks
-				if(gameBoard[i][j] == "0" && row_with_2_empty_blocks.contains(i)) {
+				if(map[i][j] == "0" && row_with_2_empty_blocks.contains(i)) {
 					//Saves the indexes to the top balls
 					if(i < min_i) {
 						min_i = i;
@@ -330,7 +322,7 @@ public class Board extends JPanel implements ActionListener{
 					if(i > max_i) {
 						max_i = i;
 						index_pb[3] = i;
-						min_j_last_row = gameBoard.length-1;
+						min_j_last_row = map.length-1;
 						if(j < min_j_last_row) {
 							index_pb[4] = j;
 							min_j_last_row = j;
@@ -644,7 +636,6 @@ public class Board extends JPanel implements ActionListener{
 			gameScore.setScore(gameScore.getScore() + power_ball_points);
 			pacman.changeToImmortal();
 		}
-		System.out.println("Score: " + gameScore.getScore());
 	}
 
 	/**
@@ -705,7 +696,6 @@ public class Board extends JPanel implements ActionListener{
 		if(pacman.isImmortal() == true) return;
 		if(map[x][y].equals("rg") || map[x][y].equals("bg") || 
 				map[x][y].equals("pg") || map[x][y].equals("og")) {
-			System.out.println("The Ghost eat the pacman");
 			pacman.setLifeLeft(pacman.getLifeLeft()-1);
 			gameScore.updateLifeMessage("Your lost a life " + pacman.getLifeLeft() + " left");
 			switch(pacman.getLifeLeft()) {
@@ -718,7 +708,6 @@ public class Board extends JPanel implements ActionListener{
 			case 0:
 				thirdLife.setStatus(NOT_EXIST);
 				PopupGameOver popup_game_over = new PopupGameOver();
-				//menu = new Menu();
 				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/2); 
 				popup_game_over.po.show();
 				break;
@@ -786,7 +775,6 @@ public class Board extends JPanel implements ActionListener{
 	private void checkPowerBallTimer() {
 		final int second = 1000;
 		if(isItPbLocatin(pacman.getGrid_x(), pacman.getGrid_y())) {
-			System.out.println("Eat PB");
 			timerCounter = GameConstants.GHOST_IN_ACTIVE_TIME;
 			ActionListener task = new ActionListener() {
 				@Override
@@ -830,7 +818,6 @@ public class Board extends JPanel implements ActionListener{
 	private void isGhostEatPacman(Ghosts currentGhost){
 		if(pacman.isImmortal() == true) return;
 		if(isItPacmanLocation(currentGhost.getGrid_x(), currentGhost.getGrid_y()) ){
-			System.out.println("The Ghost eat the pacman");
 			pacman.setLifeLeft(pacman.getLifeLeft()-1);
 			gameScore.updateLifeMessage("Your lost a life " + pacman.getLifeLeft() + " left");
 			switch(pacman.getLifeLeft()) {
@@ -843,7 +830,6 @@ public class Board extends JPanel implements ActionListener{
 			case 0:
 				thirdLife.setStatus(NOT_EXIST);
 				PopupGameOver popup_game_over = new PopupGameOver();
-				//menu = new Menu();
 				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
 				popup_game_over.po.show();
 				break;
@@ -867,9 +853,44 @@ public class Board extends JPanel implements ActionListener{
 	 * @param current
 	 */
 	private void updateGhost(Ghosts current) {
+		if(pacman.isImmortal() == true) {
+			if(current == redGhost) {
+				Image red_ghost_flickering = new ImageIcon("src/Images/redGhostFlickering.gif").getImage();
+				redGhost.setGhostImage(red_ghost_flickering);
+			}
+			else if(current == blueGhost) {
+				Image blue_ghost_flickering = new ImageIcon("src/Images/blueGhostFlickering.gif").getImage();
+				blueGhost.setGhostImage(blue_ghost_flickering);
+			}
+			else if(current == pinkGhost) {
+				Image pink_ghost_flickering = new ImageIcon("src/Images/pinkGhostFlickering.gif").getImage();
+				pinkGhost.setGhostImage(pink_ghost_flickering);
+			}
+			else {
+				Image orange_ghost_flickering = new ImageIcon("src/Images/orangeGhostFlickering.gif").getImage();
+				orangeGhost.setGhostImage(orange_ghost_flickering);
+			}
+			
+		}
+		else {
+			if(current == redGhost) {
+				Image red_ghost_gif = new ImageIcon("src/Images/redGhostGIF.gif").getImage();
+				redGhost.setGhostImage(red_ghost_gif);
+			}
+			else if(current == blueGhost) {
+				Image blue_ghost_gif = new ImageIcon("src/Images/blueGhostGIF.gif").getImage();
+				blueGhost.setGhostImage(blue_ghost_gif);
+			}
+			else if(current == pinkGhost) {
+				Image pink_ghost_gif = new ImageIcon("src/Images/pinkGhostGIF.gif").getImage();
+				pinkGhost.setGhostImage(pink_ghost_gif);
+			}
+			else {
+				Image orange_ghost_gif = new ImageIcon("src/Images/orangeGhostGIF.gif").getImage();
+				orangeGhost.setGhostImage(orange_ghost_gif);
+			}
+		}
 		int number_of_steps = blockWidth;
-		System.out.println("moveCounter of " + current.getNameOnMap() + ": " + current.getMoveCounter());
-
 		if(current.getMoveCounter() < number_of_steps) {
 			current.setMoveCounter(current.getMoveCounter()+1);
 			//per direction update location
