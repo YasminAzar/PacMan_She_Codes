@@ -12,26 +12,20 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 import javax.swing.UIManager;
 
-import menu_package.Menu;
-
 public class PopupGameOver extends Popup implements  ActionListener {
-	private Menu menu;
+	//private Menu menu;
+	public JLabel l_endGame;
 	// popup 
-	Popup po; 
-
+	public Popup po; 
 	// panel 
-	JPanel p, pwin; 
-
+	JPanel p_endGame; 
 	// popupfactory 
 	PopupFactory pf;
 	 
-	PopupGameOver() 
+	PopupGameOver(String msg) 
 	{ 
 		pf = new PopupFactory(); 
-		JLabel l = new JLabel("GAME OVER"); 
-		//JLabel l2 = new JLabel("SCORE: "); 
-		JLabel l_win = new JLabel("*YOU WIN*"); 
-		//JLabel l2_win = new JLabel("SCORE: "); 
+		l_endGame = new JLabel(); 
 
 		try { 
 			// set windows look and feel 
@@ -40,34 +34,25 @@ public class PopupGameOver extends Popup implements  ActionListener {
 		} 
 		catch (Exception e) { 
 		} 
-
 		// create a panel 
-		p = new JPanel(); 
-		pwin = new JPanel();
-		p.setBackground(Color.ORANGE); 
-		pwin.setBackground(Color.GREEN);
+		p_endGame = new JPanel();
+		p_endGame.setBackground(Color.GREEN);
 		// create a font 
 		Font f1 = new Font("BOLD", 1, 60);
-		//Font f2 = new Font("BOLD", 2, 40);
-		l.setFont(f1); 
-		//l2.setFont(f2);
-		l_win.setFont(f1);
-		//l2_win.setFont(f2);
+		l_endGame.setFont(f1);
 		// add contents to panel 
-		p.add(l); 
-		//p.add(l2); 
-		p.setLayout(new GridLayout(1, 1)); 
-		
-		pwin.add(l_win);
-		//pwin.add(l2_win);
-		pwin.setLayout(new GridLayout(1, 1)); 
-		/*menu = new Menu();
-		menu.newGame.addActionListener(this);
-		menu.loadGame.addActionListener(this);
-		menu.leaderBoard.addActionListener(this);*/
-		
-		
+		p_endGame.add(l_endGame);
+		p_endGame.setLayout(new GridLayout(1, 1)); 
 
+	}
+	
+	public void updatePopUp(String status) {
+		if (status.equals("GAME OVER")) {
+			p_endGame.setBackground(Color.ORANGE);
+		} else {
+			p_endGame.setBackground(Color.GREEN);
+		}
+		l_endGame.setText(status);
 	}
 
 	@Override

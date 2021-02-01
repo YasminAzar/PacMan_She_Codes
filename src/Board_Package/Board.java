@@ -73,6 +73,8 @@ public class Board extends JPanel implements ActionListener{
 	int [] pinkGhostLoc = new int[2];
 	int [] orangeGhostLoc = new int[2];
 	int [] pacmanLoc = new int[2];
+	boolean in_game = false;
+	public PopupGameOver popupGameOver;
 
 	public Board(int board_number) {
 		if (board_number == 1) {	
@@ -101,7 +103,10 @@ public class Board extends JPanel implements ActionListener{
 		callGhosts();
 		callPacman();
 		callLives();
-		addKeyBoard();	
+		addKeyBoard();
+		in_game = true;
+		endGame("");
+		//testEndGame();
 	}
 
 	/**
@@ -167,13 +172,16 @@ public class Board extends JPanel implements ActionListener{
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		createBoard(g2);
-		updateGhost(redGhost);
+		if(in_game == true) {
+			updateGhost(redGhost);
+			updateGhost(blueGhost);
+			updateGhost(pinkGhost);
+			updateGhost(orangeGhost);
+		}
+		
 		drawGhost(g2, redGhost);
-		updateGhost(blueGhost);
 		drawGhost(g2, blueGhost);
-		updateGhost(pinkGhost);
 		drawGhost(g2, pinkGhost);
-		updateGhost(orangeGhost);
 		drawGhost(g2, orangeGhost);
 		drawPacman(g2, pacman);
 		drawPowerBall(g2, powerBall_1);
@@ -680,10 +688,7 @@ public class Board extends JPanel implements ActionListener{
 			}	
 		}
 		if(thereIsBalls == false){
-			PopupGameOver popup_game_over = new PopupGameOver();
-			//menu = new Menu();
-			popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.pwin, boardWidth/3, boardHeight/2); 
-			popup_game_over.po.show();
+			endGame("*YOU WIN*");
 		}
 	}
 	
@@ -707,9 +712,7 @@ public class Board extends JPanel implements ActionListener{
 				break;
 			case 0:
 				thirdLife.setStatus(NOT_EXIST);
-				PopupGameOver popup_game_over = new PopupGameOver();
-				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/2); 
-				popup_game_over.po.show();
+				endGame("GAME OVER");
 				break;
 			}
 		}
@@ -754,6 +757,9 @@ public class Board extends JPanel implements ActionListener{
 		return false;
 	}
 
+	/**
+	 * This function creates the score panel
+	 */
 	private void scorePanel() {
 		GridBagConstraints constraints = new GridBagConstraints( );
 		gameScore = new GameScore();
@@ -768,6 +774,37 @@ public class Board extends JPanel implements ActionListener{
 		this.repaint();
 	}
 
+	/*private void testEndGame() {
+		final int second = 5000;
+		ActionListener task_2 = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+					Timer t = (Timer)evt.getSource();
+					t.stop();
+					endGame("GAME OVER");
+				}
+			};
+			Timer timer = new Timer(second, task_2);
+			timer.start();
+	}*/
+	
+	/**
+	 * This function creates a popup to end the game
+	 * @param status
+	 */
+	private void endGame(String status) {
+		if (status.equals("")) {
+			// init only
+			popupGameOver = new PopupGameOver(status);
+			popupGameOver.po = popupGameOver.pf.getPopup(this, popupGameOver.p_endGame, boardWidth/3, boardHeight/2); 
+			
+		} else {
+			popupGameOver.updatePopUp(status);
+			popupGameOver.po.show();
+			in_game = false;
+		}	
+	}
+	
 	/**
 	 * This function checks whether the pacman has reached the power ball,
 	 * and as soon as he has eaten it, a timer of 15 seconds starts, until it reaches to 0
@@ -829,9 +866,7 @@ public class Board extends JPanel implements ActionListener{
 				break;
 			case 0:
 				thirdLife.setStatus(NOT_EXIST);
-				PopupGameOver popup_game_over = new PopupGameOver();
-				popup_game_over.po = popup_game_over.pf.getPopup(this, popup_game_over.p, boardWidth/3, boardHeight/3); 
-				popup_game_over.po.show();
+				endGame("GAME OVER");
 				break;
 			}
 		}

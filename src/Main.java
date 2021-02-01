@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 
@@ -15,6 +17,7 @@ public class Main extends JFrame implements ActionListener {
 
 	private Menu menu;
 	private LoadGameMenu loadGameMenu;
+	private Board game_board;
 
 	public static void main(String[] args) {
 		Main game_main = new Main();
@@ -50,18 +53,10 @@ public class Main extends JFrame implements ActionListener {
 		menu.loadGame.addActionListener(this);
 		menu.leaderBoard.addActionListener(this);
 		this.add(menu);
+		this.revalidate(); 
 		this.pack();
 	}
-	
-	/*private void initLoadGameMenu() {
-		loadGameMenu = new LoadGameMenu();
-		loadGameMenu.firstGameOption.addActionListener(new LoadGameActionListener());
-		loadGameMenu.secondGameOption.addActionListener(new LoadGameActionListener());
-		loadGameMenu.thirdGameOption.addActionListener(new LoadGameActionListener());
-		this.add(loadGameMenu);
-		this.pack();
-	}*/
-	
+
 
 	// EB remove override
 	/**
@@ -75,13 +70,18 @@ public class Main extends JFrame implements ActionListener {
 			this.menu.setVisible(false);
 			this.remove(menu);
 			System.out.println("New Game is pressed");
-			Board game_board = new Board(1);
+			game_board = new Board(1);
 			game_board.setPreferredSize(new Dimension(width,height));
+			game_board.popupGameOver.l_endGame.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent me) {
+					//send back to lose the board
+					replayGame();
+				}
+			});
 			this.add(game_board, BorderLayout.PAGE_START);
 			this.revalidate();
 			this.repaint();
 			this.pack();
-
 		}
 		else if(arg0.getActionCommand().equals("loadGame")) {
 			this.menu.setVisible(false);
@@ -91,13 +91,11 @@ public class Main extends JFrame implements ActionListener {
 			loadGameMenu.firstGameOption.addActionListener(new LoadGameActionListener());
 			loadGameMenu.secondGameOption.addActionListener(new LoadGameActionListener());
 			loadGameMenu.thirdGameOption.addActionListener(new LoadGameActionListener());
-			
-			//initLoadGameMenu();
+
 			this.add(loadGameMenu);
 			this.revalidate();
 			this.repaint();
 			this.pack();
-			
 		}
 
 		//if we press the "leaderBoard" button, a new window 
@@ -107,6 +105,13 @@ public class Main extends JFrame implements ActionListener {
 		}
 	}
 
+	private void replayGame() {
+		this.game_board.popupGameOver.po.hide();
+		this.game_board.setVisible(false);
+		this.remove(game_board);
+		initMenu();
+	}
+	
 	class LoadGameActionListener implements ActionListener  {
 		public void actionPerformed(ActionEvent e) {
 			//do something usefull
@@ -128,13 +133,19 @@ public class Main extends JFrame implements ActionListener {
 
 			loadGameMenu.setVisible(false);
 			loadGameMenu.remove(menu);
-			Board game_board = new Board(board_number);
+			game_board = new Board(board_number);
 			game_board.setPreferredSize(new Dimension(width,height));
+			game_board.popupGameOver.l_endGame.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent me) {
+					// send back to close the board
+					replayGame();
+
+				}
+			});
 			add(game_board, BorderLayout.PAGE_START);
 			revalidate();
 			repaint();
 			pack(); 
 		}
 	}
-
 }
