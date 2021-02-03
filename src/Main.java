@@ -1,12 +1,10 @@
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 import javax.swing.JFrame;
 
@@ -15,7 +13,6 @@ import game_constants_package.GameConstants;
 import menu_package.LeaderBoard;
 import menu_package.LoadGameMenu;
 import menu_package.Menu;
-import score_package.GameScore;
 
 public class Main extends JFrame implements ActionListener {
 
@@ -27,7 +24,6 @@ public class Main extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		Main game_main = new Main();
 		game_main.initFrame(args);
-
 	}
 
 	/**
@@ -128,8 +124,8 @@ public class Main extends JFrame implements ActionListener {
 		this.remove(game_board);
 		initMenu();
 	}
+	
 	private void replayMenu() {
-		
 		this.leaderBoard.setVisible(false);
 		this.remove(leaderBoard);
 		initMenu();
@@ -137,8 +133,6 @@ public class Main extends JFrame implements ActionListener {
 
 	class LoadGameActionListener implements ActionListener  {
 		public void actionPerformed(ActionEvent e) {
-			//do something usefull
-			//.....
 			int height = GameConstants.SCREEN_HEIGHT;
 			int width = GameConstants.SCREEN_WIDTH;
 			System.out.println("LoadGameActionListener "+e.getActionCommand());
@@ -162,7 +156,6 @@ public class Main extends JFrame implements ActionListener {
 				public void mouseClicked(MouseEvent me) {
 					// send back to close the board
 					replayGame();
-
 				}
 			});
 			add(game_board, BorderLayout.PAGE_START);

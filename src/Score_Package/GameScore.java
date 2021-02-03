@@ -26,7 +26,6 @@ public class GameScore extends JPanel implements ActionListener {
 	}
 
 	JTextField tScore, tPbEaten, tTimer, tWarning, tLife;
-	//private Timer timer;
 	
 	public int getPowerBallCounter() {
 		return powerBallCounter;
@@ -38,13 +37,8 @@ public class GameScore extends JPanel implements ActionListener {
 
 	public GameScore() {
 		setPreferredSize(new Dimension(660, 80));
-        //setBackground(new Color(250, 230, 180));
         setFont(new Font("Serif", Font.BOLD, 20));
-		//setBorder(new EmptyBorder(5,5,5,5));
 		this.setBackground(Color.black);
-		//setBorder(new EmptyBorder(5,5,5,5));
-		//setLayout(new GridBagLayout());
-		//setLocation(new Point(500, getHeight()));
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridwidth = GridBagConstraints.VERTICAL;
 		gbc.gridheight = GridBagConstraints.HORIZONTAL;
@@ -84,10 +78,6 @@ public class GameScore extends JPanel implements ActionListener {
 		this.score = score;
 	}
 	
-	/*public void timer15s() {
-		 timer = new Timer(15, this);
-	     timer.start();
-	}*/
 	public void updateLifeMessage(String message) {
 		final int second = 4000;
 		setLifeIsLost(message);
@@ -109,5 +99,4 @@ public class GameScore extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
-	
 }

@@ -5,13 +5,13 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Ghosts extends GameCharacter {
-	
+
 	private Image ghostImage;
 	private String nameOnMap;
 	private int moveCounter;
 	private String standOn;
 	final String SMALL_BALL = "0";
-	
+
 	public String getStandOn() {
 		return standOn;
 	}
@@ -39,7 +39,7 @@ public class Ghosts extends GameCharacter {
 	public Ghosts(String[] args) {
 		super(args);
 	}
-	
+
 	public Ghosts(String image_string, int grid_x, int grid_y, int location_x, int location_y, String direction, String nameOnMap) {
 		super(null);
 		this.ghostImage = new ImageIcon(image_string).getImage();
@@ -52,6 +52,7 @@ public class Ghosts extends GameCharacter {
 		this.setMoveCounter(0);
 		this.setStandOn(SMALL_BALL);
 	}
+	
 	public Image getGhostImage() {
 		return ghostImage;
 	}

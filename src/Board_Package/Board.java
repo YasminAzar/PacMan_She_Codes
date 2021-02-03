@@ -106,7 +106,6 @@ public class Board extends JPanel implements ActionListener{
 		addKeyBoard();
 		in_game = true;
 		endGame("");
-		//testEndGame();
 	}
 
 	/**
@@ -765,28 +764,13 @@ public class Board extends JPanel implements ActionListener{
 		gameScore = new GameScore();
 		constraints.ipadx = 25;  // add padding
 		constraints.ipady = 25;
-		//constraints.weighty = .5;
 		constraints.gridheight = 2;
 		constraints.weighty = 1.0;
 		constraints.anchor = GridBagConstraints.PAGE_END;
-		this.add(gameScore, constraints);//e, BorderLayout.PAGE_END
+		this.add(gameScore, constraints);
 		this.invalidate();
 		this.repaint();
 	}
-
-	/*private void testEndGame() {
-		final int second = 5000;
-		ActionListener task_2 = new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent evt) {
-					Timer t = (Timer)evt.getSource();
-					t.stop();
-					endGame("GAME OVER");
-				}
-			};
-			Timer timer = new Timer(second, task_2);
-			timer.start();
-	}*/
 	
 	/**
 	 * This function creates a popup to end the game

@@ -13,7 +13,6 @@ import javax.swing.PopupFactory;
 import javax.swing.UIManager;
 
 public class PopupGameOver extends Popup implements  ActionListener {
-	//private Menu menu;
 	public JLabel l_endGame;
 	// popup 
 	public Popup po; 
@@ -21,7 +20,7 @@ public class PopupGameOver extends Popup implements  ActionListener {
 	JPanel p_endGame; 
 	// popupfactory 
 	PopupFactory pf;
-	 
+
 	PopupGameOver(String msg) 
 	{ 
 		pf = new PopupFactory(); 
@@ -43,9 +42,8 @@ public class PopupGameOver extends Popup implements  ActionListener {
 		// add contents to panel 
 		p_endGame.add(l_endGame);
 		p_endGame.setLayout(new GridLayout(1, 1)); 
-
 	}
-	
+
 	public void updatePopUp(String status) {
 		if (status.equals("GAME OVER")) {
 			p_endGame.setBackground(Color.ORANGE);
@@ -58,6 +56,5 @@ public class PopupGameOver extends Popup implements  ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
 	} 
 }

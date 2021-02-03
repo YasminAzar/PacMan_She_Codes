@@ -35,6 +35,4 @@ public class Power_Ball extends GameCharacter {
 	public void setPowerBallImage(Image powerBallImage) {
 		this.powerBallImage = powerBallImage;
 	}
-	
-
 }

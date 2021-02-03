@@ -23,5 +23,4 @@ public class Lives extends GameCharacter{
 	public void setHeartImage(Image heartImage) {
 		this.heartImage = heartImage;
 	}
-
 }

@@ -46,6 +46,7 @@ public class Pacman extends GameCharacter{
 		this.setLifeLeft(3);
 		this.isImmortal = false;
 	}
+	
 	public int getLifeLeft() {
 		return lifeLeft;
 	}
@@ -61,6 +62,7 @@ public class Pacman extends GameCharacter{
 	public void setPacmanImage(Image image) {
 		this.pacmanImage = image;
 	}
+	
 	public void changeToImmortal() {
 		this.isImmortal = true;
 		final int second = 15000;

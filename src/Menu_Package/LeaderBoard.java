@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
@@ -95,22 +94,19 @@ public class LeaderBoard extends JPanel {
 			this.add(l3, gbc);
 			this.add(l4, gbc);
 			this.add(l5, gbc);
-			this.add(l6, gbc);
-			
+			this.add(l6, gbc);	
 	}
+	
 	private ArrayList<String> getData() {
 		SQLiteManager.createNewDatabase();
 		//SQLiteManager.createPlayersTable();
-			//SQLiteManager.insertPlayerData("Dany", "2500", "3");
-			//SQLiteManager.insertPlayerData("Omer", "2000", "3");
-			//SQLiteManager.insertPlayerData("Adi", "1500", "3");
-			//SQLiteManager.insertPlayerData("Tal", "1000", "3");
-			//SQLiteManager.insertPlayerData("Or", "500", "3");
-
+		//SQLiteManager.insertPlayerData("Dany", "2500", "3");
+		//SQLiteManager.insertPlayerData("Omer", "2000", "3");
+		//SQLiteManager.insertPlayerData("Adi", "1500", "3");
+		//SQLiteManager.insertPlayerData("Tal", "1000", "3");
+		//SQLiteManager.insertPlayerData("Or", "500", "3");
 		ArrayList<String> players_data= SQLiteManager.selectAllUsers();
 		System.out.println("players data is working");
 		return players_data;
 	}
-	
-
 }

@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 import board_package.Board;
 
 public class Menu extends JPanel implements  ActionListener  {
-	//static Board _board;
 	// EB declare jbutton here so we can reference from main
 	public JButton newGame;
 	public JButton loadGame;
@@ -34,8 +33,6 @@ public class Menu extends JPanel implements  ActionListener  {
 		gbc.insets = new Insets(10,0,10,0);
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.BOTH;
-		//gbc.ipady = 150;
-		//gbc.ipadx = 150;
 		createPanel(gbc);
 	}
 
@@ -72,6 +69,5 @@ public class Menu extends JPanel implements  ActionListener  {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		//this.dispatchEvent (e);
 	}
 }

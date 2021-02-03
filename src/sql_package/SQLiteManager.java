@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
 public class SQLiteManager 
 {
 	private static final String URL = "jdbc:sqlite:MyDB.db";
@@ -120,6 +118,7 @@ public class SQLiteManager
 			System.out.println(e.getMessage());
 		}
 	}
+	
 	public static void delete(int userID) 
 	{
 		String sql = "DELETE FROM Users WHERE UserID=?;";
@@ -154,9 +153,8 @@ public class SQLiteManager
 				+ " num_games: " + rs.getString("Num_games");
 				System.out.println(data);
 				players.add(data);
-				}
-			
-			//arraylist
+			}
+
 		} 
 		catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -221,6 +219,4 @@ public class SQLiteManager
 		}
 		return bos != null ? bos.toByteArray() : null;
 	}
-
-
 }
