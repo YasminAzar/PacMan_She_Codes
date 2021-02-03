@@ -1,23 +1,28 @@
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 import javax.swing.JFrame;
 
 import board_package.Board;
 import game_constants_package.GameConstants;
+import menu_package.LeaderBoard;
 import menu_package.LoadGameMenu;
 import menu_package.Menu;
+import score_package.GameScore;
 
 public class Main extends JFrame implements ActionListener {
 
 	private Menu menu;
 	private LoadGameMenu loadGameMenu;
 	private Board game_board;
+	private LeaderBoard leaderBoard;
 
 	public static void main(String[] args) {
 		Main game_main = new Main();
@@ -101,7 +106,21 @@ public class Main extends JFrame implements ActionListener {
 		//if we press the "leaderBoard" button, a new window 
 		//will open with the score table
 		if(arg0.getActionCommand().equals("leaderBoard")) {
+			this.menu.setVisible(false);
+			this.remove(menu);
 			System.out.println("Leader Board is pressed");
+			//GridBagConstraints constraints = new GridBagConstraints( );
+			leaderBoard = new LeaderBoard();
+			
+			//constraints.ipadx = 25;  // add padding
+			//constraints.ipady = 25;
+			//constraints.weighty = .5;
+			//constraints.gridheight = 2;
+			//constraints.weighty = 1.0;
+			//constraints.anchor = GridBagConstraints.PAGE_END;
+			this.add(leaderBoard, BorderLayout.PAGE_START);
+			this.invalidate();
+			this.repaint();
 		}
 	}
 
@@ -111,7 +130,7 @@ public class Main extends JFrame implements ActionListener {
 		this.remove(game_board);
 		initMenu();
 	}
-	
+
 	class LoadGameActionListener implements ActionListener  {
 		public void actionPerformed(ActionEvent e) {
 			//do something usefull

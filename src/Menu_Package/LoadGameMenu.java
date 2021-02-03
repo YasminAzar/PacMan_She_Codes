@@ -26,21 +26,11 @@ public class LoadGameMenu extends JPanel implements  ActionListener  {
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		//gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(30,10,0,10);
-		//gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.fill = GridBagConstraints.BOTH;
-		/*GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.anchor = GridBagConstraints.NORTH;
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.insets = new Insets(10,0,10,0);
-		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.fill = GridBagConstraints.BOTH;*/
 		creatPanel(gbc);
 	}
 	
@@ -53,13 +43,6 @@ public class LoadGameMenu extends JPanel implements  ActionListener  {
 			firstGameOption.setActionCommand("firstGameOption");
 			secondGameOption.setActionCommand("secondGameOption");
 			thirdGameOption.setActionCommand("thirdGameOption");
-			/*this.revalidate();
-			this.repaint();
-			this.add(firstGameOption, gbc);
-			this.add(secondGameOption, gbc);
-			this.add(thirdGameOption, gbc);
-			this.revalidate();
-			this.repaint();*/
 			this.revalidate();
 			this.repaint();
 			gbc.gridx = 1;
