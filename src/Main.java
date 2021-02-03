@@ -109,15 +109,13 @@ public class Main extends JFrame implements ActionListener {
 			this.menu.setVisible(false);
 			this.remove(menu);
 			System.out.println("Leader Board is pressed");
-			//GridBagConstraints constraints = new GridBagConstraints( );
 			leaderBoard = new LeaderBoard();
-			
-			//constraints.ipadx = 25;  // add padding
-			//constraints.ipady = 25;
-			//constraints.weighty = .5;
-			//constraints.gridheight = 2;
-			//constraints.weighty = 1.0;
-			//constraints.anchor = GridBagConstraints.PAGE_END;
+			leaderBoard.l6.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent me) {
+					//send back to lose the board
+					replayMenu();
+				}
+			});
 			this.add(leaderBoard, BorderLayout.PAGE_START);
 			this.invalidate();
 			this.repaint();
@@ -128,6 +126,12 @@ public class Main extends JFrame implements ActionListener {
 		this.game_board.popupGameOver.po.hide();
 		this.game_board.setVisible(false);
 		this.remove(game_board);
+		initMenu();
+	}
+	private void replayMenu() {
+		
+		this.leaderBoard.setVisible(false);
+		this.remove(leaderBoard);
 		initMenu();
 	}
 
