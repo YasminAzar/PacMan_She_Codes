@@ -63,6 +63,9 @@ public class Pacman extends GameCharacter{
 		this.pacmanImage = image;
 	}
 	
+	/**
+	 * This function counts the time that pacman is immortal
+	 */
 	public void changeToImmortal() {
 		this.isImmortal = true;
 		final int second = 15000;

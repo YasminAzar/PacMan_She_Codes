@@ -13,8 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import board_package.Board;
-
 public class Menu extends JPanel implements  ActionListener  {
 	// EB declare jbutton here so we can reference from main
 	public JButton newGame;

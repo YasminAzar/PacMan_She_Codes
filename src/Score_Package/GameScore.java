@@ -78,6 +78,10 @@ public class GameScore extends JPanel implements ActionListener {
 		this.score = score;
 	}
 	
+	/**
+	 * This function displays a note for 4 seconds when the wind has caught pacman
+	 * @param message
+	 */
 	public void updateLifeMessage(String message) {
 		final int second = 4000;
 		setLifeIsLost(message);

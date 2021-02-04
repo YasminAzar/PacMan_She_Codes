@@ -36,10 +36,6 @@ public class LeaderBoard extends JPanel {
 		
 		ArrayList<String> get_data = getData();
 		int i = 0;
-		System.out.println("Test the data");
-		for(String data : get_data) {
-			System.out.println(data + ", ");
-		}
 		
 		for(String data : get_data) {
 			i++;
@@ -100,11 +96,6 @@ public class LeaderBoard extends JPanel {
 	private ArrayList<String> getData() {
 		SQLiteManager.createNewDatabase();
 		//SQLiteManager.createPlayersTable();
-		//SQLiteManager.insertPlayerData("Dany", "2500", "3");
-		//SQLiteManager.insertPlayerData("Omer", "2000", "3");
-		//SQLiteManager.insertPlayerData("Adi", "1500", "3");
-		//SQLiteManager.insertPlayerData("Tal", "1000", "3");
-		//SQLiteManager.insertPlayerData("Or", "500", "3");
 		ArrayList<String> players_data= SQLiteManager.selectAllUsers();
 		System.out.println("players data is working");
 		return players_data;

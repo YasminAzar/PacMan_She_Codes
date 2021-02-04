@@ -118,6 +118,9 @@ public class Main extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * This function hides the game board and returns it to the menu
+	 */
 	private void replayGame() {
 		this.game_board.popupGameOver.po.hide();
 		this.game_board.setVisible(false);
@@ -125,12 +128,21 @@ public class Main extends JFrame implements ActionListener {
 		initMenu();
 	}
 	
+	/**
+	 * This function hides the leaderboard and returns it to the menu
+	 */
 	private void replayMenu() {
 		this.leaderBoard.setVisible(false);
 		this.remove(leaderBoard);
 		initMenu();
 	}
 
+	/**
+	 * This class describes the actions that will happen if you press 
+	 * on one of the screens to select, in the load game menu
+	 * @author Yasmin
+	 *
+	 */
 	class LoadGameActionListener implements ActionListener  {
 		public void actionPerformed(ActionEvent e) {
 			int height = GameConstants.SCREEN_HEIGHT;
